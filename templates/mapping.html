@@ -1,4 +1,47 @@
 {% extends "base.html" %}
 {% block content %}
-<h1>Mapping Manager (coming soon)</h1>
+<h1>Mapping Manager</h1>
+
+<table class="table">
+  <thead>
+    <tr><th>Machine Product</th><th>POS Code</th><th>Stores</th><th>Action</th></tr>
+  </thead>
+  <tbody>
+    {% for m in machine_products %}
+    <tr>
+      <td>{{ m.machine_name }}</td>
+      <td>
+        <select name="plu_code">
+          {% for code in pos_codes %}
+          <option value="{{ code }}">{{ code }}</option>
+          {% endfor %}
+        </select>
+      </td>
+      <td>
+        <select name="store_ids" multiple size="3">
+          {% for s in store_ids %}
+          <option value="{{ s }}">{{ s }}</option>
+          {% endfor %}
+        </select>
+      </td>
+      <td>
+        <form hx-post="{{ url_for('add_mapping') }}"
+              hx-target="closest tr"
+              hx-swap="outerHTML">
+          <input type="hidden" name="machine_name" value="{{ m.machine_name }}">
+          <input type="hidden" name="pos_code" value="">
+          <input type="hidden" name="store_ids" value="">
+          <button type="submit"
+            onclick="this.form.pos_code.value=this.closest('tr').querySelector('select[name=plu_code]').value;
+                     this.form.store_ids.value=Array.from(this.closest('tr').querySelector('select[name=store_ids]').selectedOptions).map(o=>o.value).join(',')">
+            Save
+          </button>
+        </form>
+      </td>
+    </tr>
+    {% else %}
+    <tr><td colspan="4">All machine products mapped 🎉</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
 {% endblock %}
