@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>{{ title or "Dashboard" }}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+  <script src="https://unpkg.com/htmx.org@1.9.4"></script>
+</head>
+<body>
+  <header class="navbar">
+    <div class="brand">🍽️ Dashboard</div>
+    <nav>
+      <a href="{{ url_for('dashboard') }}">Dashboard</a>
+      <a href="{{ url_for('variance') }}">Variance</a>
+      <a href="{{ url_for('mapping') }}">Mapping</a>
+      <a href="{{ url_for('stock') }}">Stock</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    {% block content %}{% endblock %}
+  </main>
+</body>
+</html>
