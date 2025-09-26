@@ -1,55 +1,44 @@
 {% extends "base.html" %}
 {% block content %}
 <div class="container mt-4">
-  <h2>Variance Report – 33 Nozzle</h2>
+    <h3>Variance Report – 33 Nozzle</h3>
 
-  <form method="get" class="form-inline mb-3">
-    <label class="mr-2">Store</label>
-    <select name="store_id" class="form-control mr-2">
-      {% for s in stores %}
-      <option value="{{ s }}" {% if selected_store == s|string %}selected{% endif %}>{{ s }}</option>
-      {% endfor %}
-    </select>
+    <form method="POST" class="form-inline mb-3">
+        <label for="date" class="mr-2">Date:</label>
+        <input type="date" name="date" id="date" class="form-control mr-2"
+               value="{{ selected_date }}">
+        <button type="submit" class="btn btn-primary">Show</button>
+    </form>
 
-    <label class="mr-2">Date</label>
-    <input type="date" name="date" value="{{ selected_date }}" class="form-control mr-2">
-
-    <button type="submit" class="btn btn-primary">Generate</button>
-  </form>
-
-  {% if results %}
-  <table class="table table-bordered table-striped table-sm">
-    <thead class="thead-dark">
-      <tr>
-        <th>Ingredient</th>
-        <th>Opening</th>
-        <th>Replenishment</th>
-        <th>POS Sales</th>
-        <th>Machine Sales</th>
-        <th>Expected Closing</th>
-        <th>Physical Closing</th>
-        <th>Variance</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for row in results %}
-      <tr>
-        <td>{{ row["ingredient_name"] }}</td>
-        <td>{{ row["opening"]|round(2) }}</td>
-        <td>{{ row["replenishment"]|round(2) }}</td>
-        <td>{{ row["pos_sales"]|round(2) }}</td>
-        <td>{{ row["machine_sales"]|round(2) }}</td>
-        <td>{{ row["expected_closing"]|round(2) }}</td>
-        <td>{{ row["physical_closing"]|round(2) }}</td>
-        <td class="{% if row['variance'] != 0 %}text-danger{% endif %}">
-          {{ row["variance"]|round(2) }}
-        </td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
-  {% else %}
-  <p class="text-muted">⚠️ Select a store and date to generate the report.</p>
-  {% endif %}
+    <table class="table table-bordered table-sm table-striped">
+        <thead class="thead-dark">
+            <tr>
+                <th>Ingredient</th>
+                <th>Opening</th>
+                <th>Replenishment</th>
+                <th>POS Sales</th>
+                <th>Machine Sales</th>
+                <th>Expected Closing</th>
+                <th>Physical Closing</th>
+                <th>Variance (POS - Machine)</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in rows %}
+            <tr>
+                <td>{{ row.ingredient_name }}</td>
+                <td>{{ "%.2f"|format(row.opening) }}</td>
+                <td>{{ "%.2f"|format(row.replenishment) }}</td>
+                <td>{{ "%.2f"|format(row.pos_sales) }}</td>
+                <td>{{ "%.2f"|format(row.machine_sales) }}</td>
+                <td>{{ "%.2f"|format(row.expected_closing) }}</td>
+                <td>{{ "%.2f"|format(row.physical_closing) }}</td>
+                <td class="{% if row.variance != 0 %}table-danger{% endif %}">
+                    {{ "%.2f"|format(row.variance) }}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 </div>
 {% endblock %}

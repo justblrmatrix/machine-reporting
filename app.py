@@ -4,7 +4,7 @@ import psycopg2.extras
 import os
 from dotenv import load_dotenv
 from urllib.parse import urlparse
-from datetime import datetime
+from datetime import datetime, date
 
 load_dotenv()
 
@@ -283,124 +283,79 @@ def variance():
 
     return render_template("variance.html", rows=rows, devices=devices, device_id=device_id, date=date)
 
-@app.route("/variance/nozzle", methods=["GET"])
+@app.route("/variance/nozzle", methods=["GET", "POST"])
 def variance_nozzle():
     conn = get_conn()
     cur = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
 
-    # Available stores for dropdown
-    cur.execute("SELECT DISTINCT store_id FROM sales_transactions WHERE store_id IS NOT NULL ORDER BY store_id")
-    stores = [r["store_id"] for r in cur.fetchall()]
+    # Pick date (default = today)
+    selected_date = request.form.get("date") or date.today().strftime("%Y-%m-%d")
 
-    selected_store = request.args.get("store_id")
-    selected_date = request.args.get("date")
-
-    results = []
-    if selected_store and selected_date:
-        sql = """
-        WITH
-        recipe_base AS (
-          SELECT store_id, machine_name, SUM(volume) AS base_total_ml
-          FROM nozzle_mapping
-          WHERE store_id = %(store_id)s
-          GROUP BY store_id, machine_name
+    query = """
+        WITH pos_sales AS (
+            SELECT
+                st.date,
+                nm.ingredient_name,
+                SUM(st.quantity * nm.volume) AS pos_consumed
+            FROM sales_transactions st
+            JOIN nozzle_mapping nm
+              ON st.plu_code = nm.plu_code
+             AND st.store_id = nm.store_id
+            WHERE st.source = 'POS'
+              AND st.date = %s
+            GROUP BY st.date, nm.ingredient_name
         ),
-        pos_consumption AS (
-          SELECT
-            nm.ingredient_name,
-            SUM(st.quantity * nm.volume) AS pos_ml
-          FROM sales_transactions st
-          JOIN nozzle_mapping nm
-            ON nm.store_id = st.store_id
-           AND nm.plu_code = st.plu_code
-          WHERE st.source = 'POS'
-            AND st.store_id = %(store_id)s
-            AND st.date = %(date)s::date
-          GROUP BY nm.ingredient_name
+        machine_sales AS (
+            SELECT
+                st.date,
+                nm.ingredient_name,
+                SUM(st.quantity * nm.volume) AS machine_consumed
+            FROM sales_transactions st
+            JOIN nozzle_mapping nm
+              ON st.machine_name = nm.machine_name
+             AND st.store_id = nm.store_id
+            WHERE st.source = 'Nozzle'
+              AND st.date = %s
+            GROUP BY st.date, nm.ingredient_name
         ),
-        nozzle_consumption AS (
-          SELECT
-            nm.ingredient_name,
-            COALESCE(SUM(
-              st.quantity * (nm.volume / NULLIF(rb.base_total_ml, 0))
-            ),0) AS machine_ml
-          FROM sales_transactions st
-          JOIN nozzle_mapping nm
-            ON LOWER(st.machine_name) = LOWER(nm.machine_name)
-           AND nm.store_id = %(store_id)s
-          JOIN recipe_base rb
-            ON rb.store_id = nm.store_id
-           AND rb.machine_name = nm.machine_name
-          WHERE st.source = 'Nozzle'
-            AND st.date = %(date)s::date
-          GROUP BY nm.ingredient_name
-        ),
-        stock_today AS (
-          SELECT ingredient_name,
-                 COALESCE(SUM(replenishment),0) AS replenishment,
-                 COALESCE(SUM(closing),0)        AS closing
-          FROM daily_stock
-          WHERE store_id = %(store_id)s
-            AND date = %(date)s::date
-          GROUP BY ingredient_name
-        ),
-        opening AS (
-          SELECT ingredient_name, closing AS opening
-          FROM daily_stock
-          WHERE store_id = %(store_id)s
-            AND date = (%(date)s::date - INTERVAL '1 day')
-        ),
-        ingredients AS (
-          SELECT DISTINCT ingredient_name FROM nozzle_mapping WHERE store_id = %(store_id)s
-          UNION SELECT ingredient_name FROM stock_today
-          UNION SELECT ingredient_name FROM opening
-          UNION SELECT ingredient_name FROM pos_consumption
-          UNION SELECT ingredient_name FROM nozzle_consumption
+        stock_movements AS (
+            SELECT
+                ds.date,
+                ds.ingredient_name,
+                COALESCE(LAG(ds.closing) OVER (PARTITION BY ds.ingredient_name ORDER BY ds.date),0) AS opening,
+                ds.replenishment,
+                ds.closing
+            FROM daily_stock ds
+            WHERE ds.date <= %s
         )
         SELECT
-          %(store_id)s::int                              AS store_id,
-          %(date)s::text                                AS date,  -- 🔑 force string here
-          i.ingredient_name                             AS ingredient_name,
-          COALESCE(o.opening, 0)                        AS opening,
-          COALESCE(st.replenishment, 0)                 AS replenishment,
-          COALESCE(pc.pos_ml, 0)                        AS pos_sales,
-          COALESCE(nc.machine_ml, 0)                    AS machine_sales,
-          (COALESCE(o.opening,0) + COALESCE(st.replenishment,0)
-           - COALESCE(pc.pos_ml,0) - COALESCE(nc.machine_ml,0)) AS expected_closing,
-          COALESCE(st.closing, 0)                       AS physical_closing,
-          ((COALESCE(o.opening,0) + COALESCE(st.replenishment,0)
-            - COALESCE(pc.pos_ml,0) - COALESCE(nc.machine_ml,0))
-           - COALESCE(st.closing,0))                    AS variance
-        FROM ingredients i
-        LEFT JOIN opening          o  ON o.ingredient_name  = i.ingredient_name
-        LEFT JOIN stock_today      st ON st.ingredient_name = i.ingredient_name
-        LEFT JOIN pos_consumption  pc ON pc.ingredient_name = i.ingredient_name
-        LEFT JOIN nozzle_consumption nc ON nc.ingredient_name = i.ingredient_name
-        ORDER BY i.ingredient_name;
-        """
-        params = {
-            "store_id": int(selected_store),
-            "date": selected_date
-        }
-        cur.execute(sql, params)
-        results = cur.fetchall()
-
-        # 🔑 Ensure date is string in Python too
-        for r in results:
-            if isinstance(r["date"], datetime):
-                r["date"] = r["date"].strftime("%Y-%m-%d")
+            COALESCE(ps.date, ms.date, sm.date) AS date,
+            COALESCE(ps.ingredient_name, ms.ingredient_name, sm.ingredient_name) AS ingredient_name,
+            COALESCE(sm.opening,0) AS opening,
+            COALESCE(sm.replenishment,0) AS replenishment,
+            COALESCE(ps.pos_consumed,0) AS pos_sales,
+            COALESCE(ms.machine_consumed,0) AS machine_sales,
+            (COALESCE(sm.opening,0) + COALESCE(sm.replenishment,0)
+             - COALESCE(ps.pos_consumed,0) - COALESCE(ms.machine_consumed,0)) AS expected_closing,
+            COALESCE(sm.closing,0) AS physical_closing,
+            (COALESCE(ps.pos_consumed,0) - COALESCE(ms.machine_consumed,0)) AS variance
+        FROM pos_sales ps
+        FULL OUTER JOIN machine_sales ms
+          ON ps.date = ms.date AND ps.ingredient_name = ms.ingredient_name
+        FULL OUTER JOIN stock_movements sm
+          ON COALESCE(ps.date, ms.date) = sm.date
+         AND COALESCE(ps.ingredient_name, ms.ingredient_name) = sm.ingredient_name
+        ORDER BY ingredient_name;
+    """
+    cur.execute(query, (selected_date, selected_date, selected_date))
+    rows = cur.fetchall()
 
     cur.close()
     conn.close()
 
-    return render_template(
-        "variance_nozzle.html",
-        stores=stores,
-        results=results,
-        selected_store=selected_store,
-        selected_date=selected_date
-    )
-
+    return render_template("variance_nozzle.html",
+                           rows=rows,
+                           selected_date=selected_date)
 
 
 
