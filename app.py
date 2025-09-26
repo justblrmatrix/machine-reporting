@@ -4,7 +4,9 @@ import psycopg2.extras
 import os
 from dotenv import load_dotenv
 from urllib.parse import urlparse
-from datetime import datetime, date
+from datetime import datetime, date, timedelta
+from psycopg2.extras import RealDictCursor
+import re
 
 load_dotenv()
 
@@ -283,80 +285,107 @@ def variance():
 
     return render_template("variance.html", rows=rows, devices=devices, device_id=device_id, date=date)
 
+def normalize_name(raw):
+    if not raw:
+        return ""
+    s = raw.lower()
+    s = re.sub(r'[\r\n\t]+', ' ', s)          # remove line breaks/tabs
+    s = re.sub(r"['`´]", "", s)               # remove apostrophes/backticks
+    s = re.sub(r'[^a-z0-9&]+', ' ', s)        # keep only alnum + &
+    s = re.sub(r'\s+', ' ', s).strip()        # collapse spaces
+    return s
+
 @app.route("/variance/nozzle", methods=["GET", "POST"])
 def variance_nozzle():
     conn = get_conn()
     cur = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
 
-    # Pick date (default = today)
     selected_date = request.form.get("date") or date.today().strftime("%Y-%m-%d")
+    d = datetime.strptime(selected_date, "%Y-%m-%d").date()
+    d_prev = d - timedelta(days=1)
 
-    query = """
-        WITH pos_sales AS (
-            SELECT
-                st.date,
-                nm.ingredient_name,
-                SUM(st.quantity * nm.volume) AS pos_consumed
-            FROM sales_transactions st
-            JOIN nozzle_mapping nm
-              ON st.plu_code = nm.plu_code
-             AND st.store_id = nm.store_id
-            WHERE st.source = 'POS'
-              AND st.date = %s
-            GROUP BY st.date, nm.ingredient_name
-        ),
-        machine_sales AS (
-            SELECT
-                st.date,
-                nm.ingredient_name,
-                SUM(st.quantity * nm.volume) AS machine_consumed
-            FROM sales_transactions st
-            JOIN nozzle_mapping nm
-              ON st.machine_name = nm.machine_name
-             AND st.store_id = nm.store_id
-            WHERE st.source = 'Nozzle'
-              AND st.date = %s
-            GROUP BY st.date, nm.ingredient_name
-        ),
-        stock_movements AS (
-            SELECT
-                ds.date,
-                ds.ingredient_name,
-                COALESCE(LAG(ds.closing) OVER (PARTITION BY ds.ingredient_name ORDER BY ds.date),0) AS opening,
-                ds.replenishment,
-                ds.closing
-            FROM daily_stock ds
-            WHERE ds.date <= %s
-        )
-        SELECT
-            COALESCE(ps.date, ms.date, sm.date) AS date,
-            COALESCE(ps.ingredient_name, ms.ingredient_name, sm.ingredient_name) AS ingredient_name,
-            COALESCE(sm.opening,0) AS opening,
-            COALESCE(sm.replenishment,0) AS replenishment,
-            COALESCE(ps.pos_consumed,0) AS pos_sales,
-            COALESCE(ms.machine_consumed,0) AS machine_sales,
-            (COALESCE(sm.opening,0) + COALESCE(sm.replenishment,0)
-             - COALESCE(ps.pos_consumed,0) - COALESCE(ms.machine_consumed,0)) AS expected_closing,
-            COALESCE(sm.closing,0) AS physical_closing,
-            (COALESCE(ps.pos_consumed,0) - COALESCE(ms.machine_consumed,0)) AS variance
-        FROM pos_sales ps
-        FULL OUTER JOIN machine_sales ms
-          ON ps.date = ms.date AND ps.ingredient_name = ms.ingredient_name
-        FULL OUTER JOIN stock_movements sm
-          ON COALESCE(ps.date, ms.date) = sm.date
-         AND COALESCE(ps.ingredient_name, ms.ingredient_name) = sm.ingredient_name
-        ORDER BY ingredient_name;
-    """
-    cur.execute(query, (selected_date, selected_date, selected_date))
-    rows = cur.fetchall()
+    # load mappings into memory
+    cur.execute("""
+        SELECT machine_name, ingredient_name, volume
+        FROM nozzle_mapping
+        WHERE active = true
+    """)
+    mapping_rows = cur.fetchall()
+
+    mapping_dict = {}
+    for row in mapping_rows:
+        key = normalize_name(row["machine_name"])
+        mapping_dict.setdefault(key, []).append((row["ingredient_name"], row["volume"]))
+
+    # load nozzle sales (machine source)
+    cur.execute("""
+        SELECT machine_name, quantity
+        FROM sales_transactions
+        WHERE source = 'Nozzle' AND date = %s
+    """, (d,))
+    nozzle_rows = cur.fetchall()
+
+    machine_consumption = {}
+    for row in nozzle_rows:
+        key = normalize_name(row["machine_name"])
+        if key in mapping_dict:
+            for ing, vol in mapping_dict[key]:
+                machine_consumption[ing] = machine_consumption.get(ing, 0) + (row["quantity"] or 0) * vol
+
+    # load POS sales (plu_code mapping)
+    cur.execute("""
+        SELECT st.plu_code, st.quantity, nm.ingredient_name, nm.volume
+        FROM sales_transactions st
+        JOIN nozzle_mapping nm
+          ON st.plu_code = nm.plu_code AND st.store_id = nm.store_id
+        WHERE st.source = 'POS' AND st.date = %s
+    """, (d,))
+    pos_rows = cur.fetchall()
+
+    pos_consumption = {}
+    for row in pos_rows:
+        ing = row["ingredient_name"]
+        pos_consumption[ing] = pos_consumption.get(ing, 0) + (row["quantity"] or 0) * row["volume"]
+
+    # load stock
+    cur.execute("""
+        SELECT ingredient_name,
+               SUM(CASE WHEN date = %s THEN closing ELSE 0 END) AS opening,
+               SUM(CASE WHEN date = %s THEN replenishment ELSE 0 END) AS replenishment,
+               SUM(CASE WHEN date = %s THEN closing ELSE 0 END) AS closing
+        FROM daily_stock
+        WHERE date IN (%s, %s)
+        GROUP BY ingredient_name
+    """, (d_prev, d, d, d_prev, d))
+    stock_rows = {r["ingredient_name"]: r for r in cur.fetchall()}
+
+    # merge everything
+    ingredients = set(stock_rows.keys()) | set(pos_consumption.keys()) | set(machine_consumption.keys())
+    rows = []
+    for ing in sorted(ingredients):
+        s = stock_rows.get(ing, {})
+        opening = float(s.get("opening", 0) or 0)
+        replenishment = float(s.get("replenishment", 0) or 0)
+        closing = float(s.get("closing", 0) or 0)
+        pos_sales = float(pos_consumption.get(ing, 0))
+        machine_sales = float(machine_consumption.get(ing, 0))
+        expected_closing = opening + replenishment - pos_sales - machine_sales
+        variance = pos_sales - machine_sales
+        rows.append({
+            "ingredient_name": ing,
+            "opening": opening,
+            "replenishment": replenishment,
+            "pos_sales": pos_sales,
+            "machine_sales": machine_sales,
+            "expected_closing": expected_closing,
+            "physical_closing": closing,
+            "variance": variance
+        })
 
     cur.close()
     conn.close()
 
-    return render_template("variance_nozzle.html",
-                           rows=rows,
-                           selected_date=selected_date)
-
+    return render_template("variance_nozzle.html", rows=rows, selected_date=selected_date)
 
 
 
