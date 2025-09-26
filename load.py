@@ -2,14 +2,15 @@ import json
 import psycopg2
 import os
 from dotenv import load_dotenv
+
 load_dotenv()
 DB_URL = os.getenv("DATABASE_URL")
 
 def get_conn():
     return psycopg2.connect(DB_URL)
 
-def import_nozzle_mapping(json_file="mapping.json"):
-    with open(json_file) as f:
+def load_nozzle_mapping():
+    with open("mapping.json") as f:
         data = json.load(f)
 
     conn = get_conn()
@@ -24,26 +25,29 @@ def import_nozzle_mapping(json_file="mapping.json"):
         for store_id in store_ids:
             for pos in pos_items:
                 plu = pos.get("plu_code")
-
                 for m in machine_items:
+                    machine_name = m.get("name", "").strip()
                     cups = m.get("cups", {})
-                    for cup_name, cup in cups.items():
-                        if cup.get("base_multiplier") == 1:
-                            for mat in cup.get("materials", []):
-                                ing = mat["name"].strip()
-                                vol = float(mat.get("volume", 0) or 0)
 
-                                cur.execute("""
-                                    INSERT INTO nozzle_mapping (store_id, plu_code, ingredient_name, volume)
-                                    VALUES (%s, %s, %s, %s)
-                                    ON CONFLICT (store_id, plu_code, ingredient_name) DO UPDATE
-                                    SET volume = EXCLUDED.volume
-                                """, (store_id, plu, ing, vol))
+                    # Only base multiplier = 1
+                    for cup_name, cup in cups.items():
+                        if cup.get("base_multiplier", 1) != 1:
+                            continue
+                        for mat in cup.get("materials", []):
+                            ingredient = mat["name"].strip()
+                            volume = float(mat.get("volume", 0) or 0)
+
+                            cur.execute("""
+                                INSERT INTO nozzle_mapping
+                                  (store_id, plu_code, machine_name, ingredient_name, volume)
+                                VALUES (%s, %s, %s, %s, %s)
+                                ON CONFLICT DO NOTHING
+                            """, (store_id, plu, machine_name, ingredient, volume))
 
     conn.commit()
     cur.close()
     conn.close()
-    print("✅ Imported nozzle mappings.")
+    print("✅ Nozzle mapping loaded successfully.")
 
 if __name__ == "__main__":
-    import_nozzle_mapping()
+    load_nozzle_mapping()
