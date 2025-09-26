@@ -329,8 +329,8 @@ def variance_nozzle():
     for row in nozzle_rows:
         key = normalize_name(row["machine_name"])
         if key in mapping_dict:
-            for ing, vol in mapping_dict[key]:
-                machine_consumption[ing] = machine_consumption.get(ing, 0) + (row["quantity"] or 0) * vol
+            for ing, _ in mapping_dict[key]:
+                machine_consumption[ing] = machine_consumption.get(ing, 0) + (row["quantity"] or 0)
 
     # load POS sales (plu_code mapping)
     cur.execute("""
