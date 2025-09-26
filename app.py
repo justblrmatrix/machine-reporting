@@ -44,60 +44,66 @@ def dashboard():
 # ---------------------------
 # Mapping
 # ---------------------------
-@app.route("/mapping", methods=["GET", "POST"])
-def mapping():
+@app.route("/mapping/33nozzle", methods=["GET", "POST"])
+def mapping_nozzle():
     conn = get_conn()
     cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
 
     if request.method == "POST":
+        store_id = request.form.get("store_id")
         plu_code = request.form.get("plu_code")
-        cup_name = request.form.get("cup_name") or None
-        device_id = request.form.get("device_id") or None
 
         ingredients = request.form.getlist("ingredient_name[]")
         volumes = request.form.getlist("volume[]")
 
         for ing, vol in zip(ingredients, volumes):
-            if ing.strip() == "" or vol.strip() == "":
+            if not ing.strip() or not vol.strip():
                 continue
             cur.execute("""
-                INSERT INTO manual_mapping (plu_code, cup_name, device_id, ingredient_name, volume)
-                VALUES (%s, %s, %s, %s, %s)
-                ON CONFLICT DO NOTHING
-            """, (plu_code, cup_name, device_id, ing.strip(), vol))
+                INSERT INTO nozzle_mapping (store_id, plu_code, ingredient_name, volume)
+                VALUES (%s, %s, %s, %s)
+                ON CONFLICT (store_id, plu_code, ingredient_name) DO UPDATE
+                SET volume = EXCLUDED.volume
+            """, (store_id, plu_code, ing.strip(), float(vol)))
+
         conn.commit()
-        flash(f"✅ Recipe for {plu_code} saved!", "success")
-        return redirect(url_for("mapping"))
+        flash(f"✅ Mapping saved for {plu_code} (store {store_id})", "success")
+        return redirect(url_for("mapping_nozzle"))
+
+    # Stores
+    cur.execute("SELECT DISTINCT store_id FROM sales_transactions WHERE store_id IS NOT NULL ORDER BY store_id")
+    stores = [row[0] for row in cur.fetchall()]
 
     # Unmapped PLUs
     cur.execute("""
-        SELECT DISTINCT st.plu_code, st.product_name
+        SELECT DISTINCT st.plu_code, st.product_name, st.store_id
         FROM sales_transactions st
-        WHERE st.plu_code IS NOT NULL
+        WHERE st.source = 'POS'
           AND NOT EXISTS (
-              SELECT 1 FROM manual_mapping m
-              WHERE trim(upper(m.plu_code)) = trim(upper(st.plu_code))
+              SELECT 1 FROM nozzle_mapping m
+              WHERE m.plu_code = st.plu_code
+              AND m.store_id = st.store_id
           )
         ORDER BY st.plu_code
+        LIMIT 100
     """)
     unmapped = cur.fetchall()
 
-    # Distinct ingredient list for dropdown
-    cur.execute("SELECT DISTINCT ingredient_name FROM manual_mapping ORDER BY ingredient_name")
-    ingredients = [row[0] for row in cur.fetchall()]
-
     # Existing mappings
     cur.execute("""
-        SELECT plu_code, cup_name, device_id, ingredient_name, volume, created_at
-        FROM manual_mapping
-        ORDER BY plu_code, cup_name, ingredient_name
+        SELECT store_id, plu_code, ingredient_name, volume, created_at
+        FROM nozzle_mapping
+        ORDER BY store_id, plu_code, ingredient_name
     """)
     mappings = cur.fetchall()
 
     cur.close()
     conn.close()
-    return render_template("mapping.html", unmapped=unmapped, ingredients=ingredients, mappings=mappings)
 
+    return render_template("mapping_nozzle.html",
+                           stores=stores,
+                           unmapped=unmapped,
+                           mappings=mappings)
 
 
 

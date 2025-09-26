@@ -1,7 +1,8 @@
 import json
 import psycopg2
 import os
-
+from dotenv import load_dotenv
+load_dotenv()
 DB_URL = os.getenv("DATABASE_URL")
 
 def get_conn():
