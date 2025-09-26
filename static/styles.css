@@ -1,38 +1,13 @@
-body {
-  font-family: sans-serif;
-  margin: 0;
-  background: #f9fafb;
-}
-
-.navbar {
-  display: flex;
-  justify-content: space-between;
-  padding: 1rem;
-  background: #fff;
-  border-bottom: 1px solid #ddd;
-}
-
-.navbar a {
-  margin-left: 1rem;
-  text-decoration: none;
-  color: #333;
-}
-
-.container {
-  padding: 1rem;
-  max-width: 1000px;
-  margin: auto;
-}
-
-.table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 1rem;
-  background: white;
-}
-
-.table th, .table td {
-  border: 1px solid #eee;
-  padding: 0.5rem;
-  text-align: left;
-}
+body { font-family: Arial, sans-serif; margin: 20px; background: #f8f9fa; }
+nav { margin-bottom: 20px; }
+nav a { margin-right: 15px; text-decoration: none; color: #007bff; }
+nav a:hover { text-decoration: underline; }
+.container { background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
+table { border-collapse: collapse; width: 100%; margin-top: 15px; }
+th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+th { background: #007bff; color: white; }
+tr:nth-child(even) { background: #f2f2f2; }
+button { padding: 5px 10px; }
+.flashes li { list-style: none; margin: 5px 0; padding: 8px; border-radius: 4px; }
+.flashes li.success { background: #d4edda; color: #155724; }
+.flashes li.error { background: #f8d7da; color: #721c24; }

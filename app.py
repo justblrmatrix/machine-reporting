@@ -1,243 +1,218 @@
-import os
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, url_for, flash
 import psycopg2
 import psycopg2.extras
+import os
 from dotenv import load_dotenv
-import requests
+from urllib.parse import urlparse
 
-# Load environment variables
 load_dotenv()
 
-DATABASE_URL = os.getenv("DATABASE_URL")
-if not DATABASE_URL:
-    raise RuntimeError("DATABASE_URL environment variable is required")
-
-def get_db_conn():
-    return psycopg2.connect(DATABASE_URL)
-
 app = Flask(__name__)
+app.secret_key = os.getenv("SECRET_KEY", "fallbacksecret")
 
+DATABASE_URL = os.getenv("DATABASE_URL")
+
+def get_conn():
+    url = urlparse(DATABASE_URL)
+    return psycopg2.connect(
+        host=url.hostname,
+        dbname=url.path[1:],
+        user=url.username,
+        password=url.password,
+        port=url.port
+    )
+
+# ---------------------------
+# Dashboard
+# ---------------------------
 @app.route("/")
 def dashboard():
-    """Show last 10 transactions."""
-    conn = get_db_conn()
-    try:
-        with conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor) as cur:
-            cur.execute("""
-                SELECT id, source, store_id, device_id, date, time, transaction_id,
-                       plu_code, product_name, machine_name, quantity, amount, currency, created_at
-                FROM public.sales_transactions
-                ORDER BY created_at DESC
-                LIMIT 10
-            """)
-            transactions = cur.fetchall()
-    finally:
-        conn.close()
+    conn = get_conn()
+    cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+    cur.execute("""
+        SELECT date, time, source, device_id, plu_code, product_name, quantity, amount
+        FROM sales_transactions
+        ORDER BY date DESC, time DESC
+        LIMIT 20
+    """)
+    txns = cur.fetchall()
+    cur.close()
+    conn.close()
+    return render_template("dashboard.html", txns=txns)
 
-    return render_template("dashboard.html", transactions=transactions)
 
-@app.route("/mapping")
+# ---------------------------
+# Mapping
+# ---------------------------
+@app.route("/mapping", methods=["GET", "POST"])
 def mapping():
-    conn = get_db_conn()
-    try:
-        with conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor) as cur:
-            # Machine products not mapped
+    conn = get_conn()
+    cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+
+    if request.method == "POST":
+        plu_code = request.form.get("plu_code")
+        cup_name = request.form.get("cup_name") or None
+        device_id = request.form.get("device_id") or None
+
+        ingredients = request.form.getlist("ingredient_name[]")
+        volumes = request.form.getlist("volume[]")
+
+        for ing, vol in zip(ingredients, volumes):
+            if ing.strip() == "" or vol.strip() == "":
+                continue
             cur.execute("""
-                SELECT DISTINCT st.machine_name
-                FROM sales_transactions st
-                WHERE st.source <> 'POS'
-                  AND st.machine_name IS NOT NULL
-                  AND st.store_id IS NULL
-                  AND NOT EXISTS (
-                    SELECT 1 FROM product_mapping pm
-                    WHERE pm.machine_name = st.machine_name
-                  )
-                ORDER BY st.machine_name
-            """)
-            unmapped_machines = cur.fetchall()
+                INSERT INTO manual_mapping (plu_code, cup_name, device_id, ingredient_name, volume)
+                VALUES (%s, %s, %s, %s, %s)
+                ON CONFLICT DO NOTHING
+            """, (plu_code, cup_name, device_id, ing.strip(), vol))
+        conn.commit()
+        flash(f"✅ Recipe for {plu_code} saved!", "success")
+        return redirect(url_for("mapping"))
 
-            # Store IDs (still needed)
-            cur.execute("""
-                SELECT DISTINCT store_id
-                FROM sales_transactions
-                WHERE store_id IS NOT NULL
-                ORDER BY store_id
-            """)
-            store_ids = [row["store_id"] for row in cur.fetchall()]
+    # Unmapped PLUs
+    cur.execute("""
+        SELECT DISTINCT st.plu_code, st.product_name
+        FROM sales_transactions st
+        WHERE st.plu_code IS NOT NULL
+          AND NOT EXISTS (
+              SELECT 1 FROM manual_mapping m
+              WHERE trim(upper(m.plu_code)) = trim(upper(st.plu_code))
+          )
+        ORDER BY st.plu_code
+    """)
+    unmapped = cur.fetchall()
 
-            # Already mapped
-            cur.execute("""
-                SELECT pm.id, pm.machine_name, pm.plu_code,
-                       array_agg(pms.store_id ORDER BY pms.store_id) AS stores
-                FROM product_mapping pm
-                LEFT JOIN product_mapping_store pms ON pm.id = pms.mapping_id
-                GROUP BY pm.id, pm.machine_name, pm.plu_code
-                ORDER BY pm.machine_name
-            """)
-            mapped = cur.fetchall()
-    finally:
-        conn.close()
+    # Distinct ingredient list for dropdown
+    cur.execute("SELECT DISTINCT ingredient_name FROM manual_mapping ORDER BY ingredient_name")
+    ingredients = [row[0] for row in cur.fetchall()]
 
-    return render_template(
-        "mapping.html",
-        unmapped_machines=unmapped_machines,
-        store_ids=store_ids,
-        mapped=mapped
-    )
+    # Existing mappings
+    cur.execute("""
+        SELECT plu_code, cup_name, device_id, ingredient_name, volume, created_at
+        FROM manual_mapping
+        ORDER BY plu_code, cup_name, ingredient_name
+    """)
+    mappings = cur.fetchall()
+
+    cur.close()
+    conn.close()
+    return render_template("mapping.html", unmapped=unmapped, ingredients=ingredients, mappings=mappings)
 
 
 
 
-
-@app.route("/mapping/add", methods=["POST"])
-def add_mapping():
-    machine_name = request.form.get("machine_name")
-    pos_code = request.form.get("pos_code")
-    store_ids = request.form.get("store_ids", "")
-
-    if not machine_name or not pos_code or not store_ids:
-        return "<td colspan='4'>❌ Missing data</td>"
-
-    store_ids = [int(s) for s in store_ids.split(",") if s.strip()]
-
-    conn = get_db_conn()
-    try:
-        with conn.cursor() as cur:
-            # Insert mapping (machine ↔ pos)
-            cur.execute("""
-                INSERT INTO product_mapping (plu_code, machine_name, source)
-                VALUES (%s, %s, 'mapping')
-                ON CONFLICT (machine_name, plu_code)
-                DO UPDATE SET updated_at = now()
-                RETURNING id
-            """, (pos_code, machine_name))
-            mapping_id = cur.fetchone()[0]
-
-            # Link to stores
-            for sid in store_ids:
-                cur.execute("""
-                    INSERT INTO product_mapping_store (mapping_id, store_id)
-                    VALUES (%s, %s)
-                    ON CONFLICT (mapping_id, store_id) DO NOTHING
-                """, (mapping_id, sid))
-
-            conn.commit()
-    finally:
-        conn.close()
-
-    return f"<td colspan='4'>✅ {machine_name} → POS {pos_code} @ stores {', '.join(map(str,store_ids))}</td>"
-
-
-
-
-from datetime import date
-
+# ---------------------------
+# Stock
+# ---------------------------
 @app.route("/stock", methods=["GET", "POST"])
 def stock():
+    conn = get_conn()
+    cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+
     if request.method == "POST":
-        # ... existing code ...
+        device_id = request.form["device_id"]
+        ingredient_name = request.form["ingredient_name"]
+        date = request.form["date"]
+        replenishment = request.form.get("replenishment") or 0
+        closing = request.form.get("closing") or 0
+        note = request.form.get("note")
+
+        cur.execute("""
+            INSERT INTO daily_stock (device_id, ingredient_name, date, replenishment, closing, note)
+            VALUES (%s, %s, %s, %s, %s, %s)
+            ON CONFLICT (device_id, ingredient_name, date) DO UPDATE
+            SET replenishment = EXCLUDED.replenishment,
+                closing = EXCLUDED.closing,
+                note = EXCLUDED.note,
+                created_at = now()
+        """, (device_id, ingredient_name, date, replenishment, closing, note))
+        conn.commit()
+        flash("Stock saved!", "success")
         return redirect(url_for("stock"))
 
-    conn = get_db_conn()
-    try:
-        with conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor) as cur:
-            cur.execute("""
-                SELECT * FROM daily_stock
-                ORDER BY date DESC, store_id, device_id, plu_code
-                LIMIT 50
-            """)
-            entries = cur.fetchall()
+    cur.execute("SELECT DISTINCT device_id FROM sales_transactions WHERE device_id IS NOT NULL")
+    devices = [row[0] for row in cur.fetchall()]
 
-            cur.execute("SELECT DISTINCT store_id FROM sales_transactions WHERE store_id IS NOT NULL ORDER BY store_id")
-            stores = [row["store_id"] for row in cur.fetchall()]
+    cur.execute("SELECT DISTINCT ingredient_name FROM manual_mapping ORDER BY ingredient_name")
+    ingredients = [row[0] for row in cur.fetchall()]
 
-            cur.execute("SELECT DISTINCT device_id FROM sales_transactions WHERE device_id IS NOT NULL ORDER BY device_id")
-            devices = [row["device_id"] for row in cur.fetchall()]
-
-            cur.execute("SELECT DISTINCT plu_code FROM sales_transactions WHERE plu_code IS NOT NULL ORDER BY plu_code")
-            plu_codes = [row["plu_code"] for row in cur.fetchall()]
-    finally:
-        conn.close()
-
-    return render_template(
-        "stock.html",
-        entries=entries,
-        stores=stores,
-        devices=devices,
-        plu_codes=plu_codes,
-        today=date.today().isoformat()
-    )
+    cur.close()
+    conn.close()
+    return render_template("stock.html", devices=devices, ingredients=ingredients)
 
 
+# ---------------------------
+# Variance
+# ---------------------------
 @app.route("/variance", methods=["GET", "POST"])
 def variance():
-    store_id = request.args.get("store_id")
-    date_str = request.args.get("date")
-
     rows = []
-    if store_id and date_str:
-        conn = get_db_conn()
-        try:
-            with conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor) as cur:
-                cur.execute("""
-                WITH sales AS (
-  SELECT pm.plu_code,
-         SUM(st.quantity) FILTER (WHERE st.source='POS') AS pos_qty,
-         SUM(st.quantity) FILTER (WHERE st.source IN ('Nozzle','Robobar')) AS machine_qty
-  FROM sales_transactions st
-  LEFT JOIN product_mapping pm
-    ON (st.machine_name = pm.machine_name OR st.plu_code = pm.plu_code)
-  LEFT JOIN product_mapping_store pms
-    ON pm.id = pms.mapping_id
-  WHERE st.date = %s
-    AND pms.store_id = %s
-  GROUP BY pm.plu_code
-),
-yest AS (
-  SELECT plu_code, closing
-  FROM daily_stock
-  WHERE date = %s::date - interval '1 day'
-    AND store_id = %s
-),
-today AS (
-  SELECT plu_code, replenishment, closing, note
-  FROM daily_stock
-  WHERE date = %s AND store_id = %s
-)
-SELECT COALESCE(yest.closing,0) AS opening,
-       COALESCE(today.replenishment,0) AS replenishment,
-       COALESCE(sales.pos_qty,0) AS pos_sales,
-       COALESCE(sales.machine_qty,0) AS machine_sales,
-       (COALESCE(yest.closing,0)+COALESCE(today.replenishment,0) 
-         - (COALESCE(sales.pos_qty,0)+COALESCE(sales.machine_qty,0))) AS expected_closing,
-       today.closing AS physical_closing,
-       (COALESCE(today.closing,0) - 
-        (COALESCE(yest.closing,0)+COALESCE(today.replenishment,0) 
-          - (COALESCE(sales.pos_qty,0)+COALESCE(sales.machine_qty,0)))) AS variance,
-       sales.plu_code
-FROM sales
-FULL JOIN yest ON yest.plu_code = sales.plu_code
-FULL JOIN today ON today.plu_code = COALESCE(sales.plu_code,yest.plu_code);
+    device_id = None
+    date = None
+    if request.method == "POST":
+        device_id = request.form["device_id"]
+        date = request.form["date"]
 
-                """, (date_str, store_id, date_str, store_id, date_str, store_id))
-                rows = cur.fetchall()
-        finally:
-            conn.close()
+        conn = get_conn()
+        cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
 
-    # stores for dropdown
-    conn = get_db_conn()
-    try:
-        with conn.cursor() as cur:
-            cur.execute("SELECT DISTINCT store_id FROM sales_transactions WHERE store_id IS NOT NULL ORDER BY store_id")
-            stores = [r[0] for r in cur.fetchall()]
-    finally:
+        query = """
+        WITH expanded_sales AS (
+            SELECT
+                m.ingredient_name,
+                st.device_id,
+                SUM(st.quantity * m.volume) AS consumed
+            FROM sales_transactions st
+            JOIN manual_mapping m
+              ON (
+                   (st.source = 'POS' AND st.plu_code = m.plu_code)
+                OR (st.source IN ('Nozzle','Robobar') AND lower(st.machine_name) = lower(m.machine_name))
+              )
+             AND (m.device_id IS NULL OR m.device_id = st.device_id)
+            WHERE st.date = %s
+              AND st.device_id = %s
+              AND m.active = true
+            GROUP BY m.ingredient_name, st.device_id
+        ),
+        yesterday AS (
+            SELECT ingredient_name, closing
+            FROM daily_stock
+            WHERE date = %s::date - interval '1 day'
+              AND device_id = %s
+        ),
+        today AS (
+            SELECT ingredient_name, replenishment, closing
+            FROM daily_stock
+            WHERE date = %s
+              AND device_id = %s
+        )
+        SELECT
+            COALESCE(yesterday.closing, 0) AS opening,
+            COALESCE(today.replenishment, 0) AS replenishment,
+            COALESCE(expanded_sales.consumed, 0) AS consumed,
+            (COALESCE(yesterday.closing, 0) + COALESCE(today.replenishment, 0) - COALESCE(expanded_sales.consumed, 0)) AS expected_closing,
+            today.closing AS physical_closing,
+            (COALESCE(today.closing, 0) -
+             (COALESCE(yesterday.closing, 0) + COALESCE(today.replenishment, 0) - COALESCE(expanded_sales.consumed, 0))) AS variance,
+            COALESCE(expanded_sales.ingredient_name, yesterday.ingredient_name, today.ingredient_name) AS ingredient_name
+        FROM expanded_sales
+        FULL JOIN yesterday ON yesterday.ingredient_name = expanded_sales.ingredient_name
+        FULL JOIN today ON today.ingredient_name = COALESCE(expanded_sales.ingredient_name, yesterday.ingredient_name);
+        """
+        cur.execute(query, (date, device_id, date, device_id, date, device_id))
+        rows = cur.fetchall()
+
+        cur.close()
         conn.close()
 
-    return render_template("variance.html",
-                           rows=rows,
-                           stores=stores,
-                           store_id=store_id,
-                           date=date_str)
+    conn = get_conn()
+    cur = conn.cursor()
+    cur.execute("SELECT DISTINCT device_id FROM sales_transactions WHERE device_id IS NOT NULL")
+    devices = [row[0] for row in cur.fetchall()]
+    cur.close()
+    conn.close()
+
+    return render_template("variance.html", rows=rows, devices=devices, device_id=device_id, date=date)
 
 
 if __name__ == "__main__":

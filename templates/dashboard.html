@@ -1,39 +1,25 @@
 {% extends "base.html" %}
 {% block content %}
-<h1>Recent Transactions</h1>
-<table class="table">
+<h2>Recent Transactions</h2>
+<table class="table table-striped">
   <thead>
     <tr>
-      <th>ID</th>
-      <th>Created At</th>
-      <th>Source</th>
-      <th>Store</th>
-      <th>Device</th>
-      <th>PLU</th>
-      <th>Product</th>
-      <th>Qty</th>
-      <th>Amount</th>
+      <th>Date</th><th>Time</th><th>Source</th><th>Device</th>
+      <th>PLU</th><th>Product</th><th>Qty</th><th>Amount</th>
     </tr>
   </thead>
   <tbody>
-    {% for t in transactions %}
-      <tr>
-        <td>{{ t.id }}</td>
-        <td>{{ t.created_at }}</td>
-        <td>{{ t.source }}</td>
-        <td>{{ t.store_id }}</td>
-        <td>{{ t.device_id }}</td>
-        <td>{{ t.plu_code }}</td>
-        <td>{{ t.product_name }}</td>
-        <td>{{ t.quantity }}</td>
-        <td>
-          {% if t.amount is not none %}
-            {{ t.amount }} {{ t.currency or "" }}
-          {% else %}-{% endif %}
-        </td>
-      </tr>
-    {% else %}
-      <tr><td colspan="9">No transactions found.</td></tr>
+    {% for t in txns %}
+    <tr>
+      <td>{{ t.date }}</td>
+      <td>{{ t.time }}</td>
+      <td>{{ t.source }}</td>
+      <td>{{ t.device_id }}</td>
+      <td>{{ t.plu_code }}</td>
+      <td>{{ t.product_name }}</td>
+      <td>{{ t.quantity }}</td>
+      <td>{{ t.amount }}</td>
+    </tr>
     {% endfor %}
   </tbody>
 </table>

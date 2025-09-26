@@ -1,0 +1,3981 @@
+[
+  {
+    "meta": {
+      "store_ids": [
+        18
+      ],
+      "devicenums": [
+        "1710743333",
+        "1710651791"
+      ]
+    },
+    "pos_items": [
+      {
+        "name": "Morpheus",
+        "menu_item_id": 3218,
+        "plu_code": "JB818"
+      }
+    ],
+    "machine_items": [
+      {
+        "name": "morpheus brandy",
+        "cups": {
+          "Large": {
+            "materials": [
+              {
+                "name": "Morpheus Brandy",
+                "volume": 60
+              }
+            ],
+            "total_volume": 60,
+            "base_multiplier": 2
+          },
+          "Standard": {
+            "materials": [
+              {
+                "name": "Morpheus Brandy",
+                "volume": 30
+              }
+            ],
+            "total_volume": 30,
+            "base_multiplier": 1
+          }
+        }
+      }
+    ]
+  },
+  {
+    "meta": {
+      "store_ids": [
+        18
+      ],
+      "devicenums": [
+        "1710743333",
+        "1710651791"
+      ]
+    },
+    "pos_items": [
+      {
+        "name": "Mansion House",
+        "menu_item_id": 3210,
+        "plu_code": "JB816"
+      }
+    ],
+    "machine_items": [
+      {
+        "name": "mansion house brandy",
+        "cups": {
+          "Standard": {
+            "materials": [
+              {
+                "name": "Mansion House Brandy",
+                "volume": 30
+              }
+            ],
+            "total_volume": 30,
+            "base_multiplier": 1
+          },
+          "Large": {
+            "materials": [
+              {
+                "name": "Mansion House Brandy",
+                "volume": 60
+              }
+            ],
+            "total_volume": 60,
+            "base_multiplier": 2
+          }
+        }
+      }
+    ]
+  },
+  {
+    "meta": {
+      "store_ids": [
+        18
+      ],
+      "devicenums": [
+        "1710743333",
+        "1710651791"
+      ]
+    },
+    "pos_items": [
+      {
+        "name": "Bombay Sapphire",
+        "menu_item_id": 10572,
+        "plu_code": "JB1276"
+      }
+    ],
+    "machine_items": [
+      {
+        "name": "bombay sapphire gin",
+        "cups": {
+          "Standard": {
+            "materials": [
+              {
+                "name": "Bombay Sapphire Gin",
+                "volume": 30
+              }
+            ],
+            "total_volume": 30,
+            "base_multiplier": 1
+          },
+          "Large": {
+            "materials": [
+              {
+                "name": "Bombay Sapphire Gin",
+                "volume": 60
+              }
+            ],
+            "total_volume": 60,
+            "base_multiplier": 2
+          }
+        }
+      }
+    ]
+  },
+  {
+    "meta": {
+      "store_ids": [
+        18
+      ],
+      "devicenums": [
+        "1710743333",
+        "1710651791"
+      ]
+    },
+    "pos_items": [
+      {
+        "name": "Bacardi C.B White Rum",
+        "menu_item_id": 14099,
+        "plu_code": "JB754"
+      }
+    ],
+    "machine_items": [
+      {
+        "name": "bacardi white rum",
+        "cups": {
+          "Standard": {
+            "materials": [
+              {
+                "name": "Bacardi White Rum",
+                "volume": 30
+              }
+            ],
+            "total_volume": 30,
+            "base_multiplier": 1
+          },
+          "Large": {
+            "materials": [
+              {
+                "name": "Bacardi White Rum",
+                "volume": 60
+              }
+            ],
+            "total_volume": 60,
+            "base_multiplier": 2
+          }
+        }
+      }
+    ]
+  },
+  {
+    "meta": {
+      "store_ids": [
+        18
+      ],
+      "devicenums": [
+        "1710743333",
+        "1710651791"
+      ]
+    },
+    "pos_items": [
+      {
+        "name": "Bacardi Lemon (LB)",
+        "menu_item_id": 97312,
+        "plu_code": "JB 2062"
+      }
+    ],
+    "machine_items": [
+      {
+        "name": "bacardi lemon white rum",
+        "cups": {
+          "Standard": {
+            "materials": [
+              {
+                "name": "Bacardi Lemon White Rum",
+                "volume": 30
+              }
+            ],
+            "total_volume": 30,
+            "base_multiplier": 1
+          },
+          "Large": {
+            "materials": [
+              {
+                "name": "Bacardi Lemon White Rum",
+                "volume": 60
+              }
+            ],
+            "total_volume": 60,
+            "base_multiplier": 2
+          }
+        }
+      }
+    ]
+  },
+  {
+    "meta": {
+      "store_ids": [
+        18
+      ],
+      "devicenums": [
+        "1710743333",
+        "1710651791"
+      ]
+    },
+    "pos_items": [
+      {
+        "name": "Old Monk DARK Rum",
+        "menu_item_id": 14100,
+        "plu_code": "JB 838"
+      }
+    ],
+    "machine_items": [
+      {
+        "name": "old monk dark rum",
+        "cups": {
+          "Standard": {
+            "materials": [
+              {
+                "name": "Old Monk Dark Rum",
+                "volume": 30
+              }
+            ],
+            "total_volume": 30,
+            "base_multiplier": 1
+          },
+          "Large": {
+            "materials": [
+              {
+                "name": "Old Monk Dark Rum",
+                "volume": 60
+              }
+            ],
+            "total_volume": 60,
+            "base_multiplier": 2
+          }
+        }
+      }
+    ]
+  },
+  {
+    "meta": {
+      "store_ids": [
+        18
+      ],
+      "devicenums": [
+        "1710743333",
+        "1710651791"
+      ]
+    },
+    "pos_items": [
+      {
+        "name": "Absolut",
+        "menu_item_id": 3072,
+        "plu_code": "JB752"
+      }
+    ],
+    "machine_items": [
+      {
+        "name": "absolute vodka",
+        "cups": {
+          "Standard": {
+            "materials": [
+              {
+                "name": "Absolute Vodka",
+                "volume": 30
+              }
+            ],
+            "total_volume": 30,
+            "base_multiplier": 1
+          },
+          "Large": {
+            "materials": [
+              {
+                "name": "Absolute Vodka",
+                "volume": 60
+              }
+            ],
+            "total_volume": 60,
+            "base_multiplier": 2
+          }
+        }
+      }
+    ]
+  },
+  {
+    "meta": {
+      "store_ids": [
+        18
+      ],
+      "devicenums": [
+        "1710743333",
+        "1710651791"
+      ]
+    },
+    "pos_items": [
+      {
+        "name": "Smirnoff Vodka",
+        "menu_item_id": 119206,
+        "plu_code": "DIGI-25819"
+      }
+    ],
+    "machine_items": [
+      {
+        "name": "smirnoff vodka",
+        "cups": {
+          "Standard": {
+            "materials": [
+              {
+                "name": "Smirnoff Vodka",
+                "volume": 30
+              }
+            ],
+            "total_volume": 30,
+            "base_multiplier": 1
+          },
+          "Large": {
+            "materials": [
+              {
+                "name": "Smirnoff Vodka",
+                "volume": 60
+              }
+            ],
+            "total_volume": 60,
+            "base_multiplier": 2
+          }
+        }
+      }
+    ]
+  },
+  {
+    "meta": {
+      "store_ids": [
+        18
+      ],
+      "devicenums": [
+        "1710743333",
+        "1710651791"
+      ]
+    },
+    "pos_items": [
+      {
+        "name": "100 Pipers",
+        "menu_item_id": 3071,
+        "plu_code": "JB751"
+      }
+    ],
+    "machine_items": [
+      {
+        "name": "100 pipers",
+        "cups": {
+          "Standard": {
+            "materials": [
+              {
+                "name": "100 Piper's",
+                "volume": 30
+              }
+            ],
+            "total_volume": 30,
+            "base_multiplier": 1
+          },
+          "Large": {
+            "materials": [
+              {
+                "name": "100 Piper's",
+                "volume": 60
+              }
+            ],
+            "total_volume": 60,
+            "base_multiplier": 2
+          }
+        }
+      }
+    ]
+  },
+  {
+    "meta": {
+      "store_ids": [
+        18
+      ],
+      "devicenums": [
+        "1710743333",
+        "1710651791"
+      ]
+    },
+    "pos_items": [
+      {
+        "name": "Ballantines Finest",
+        "menu_item_id": 3082,
+        "plu_code": "JB756"
+      }
+    ],
+    "machine_items": [
+      {
+        "name": "ballantines finest",
+        "cups": {
+          "Standard": {
+            "materials": [
+              {
+                "name": "Ballantine's Finest",
+                "volume": 30
+              }
+            ],
+            "total_volume": 30,
+            "base_multiplier": 1
+          },
+          "Large": {
+            "materials": [
+              {
+                "name": "Ballantine's Finest",
+                "volume": 60
+              }
+            ],
+            "total_volume": 60,
+            "base_multiplier": 2
+          }
+        }
+      }
+    ]
+  },
+  {
+    "meta": {
+      "store_ids": [
+        18
+      ],
+      "devicenums": [
+        "1710743333",
+        "1710651791"
+      ]
+    },
+    "pos_items": [
+      {
+        "name": "Jameson Irish Whisky",
+        "menu_item_id": 3192,
+        "plu_code": "JB776"
+      }
+    ],
+    "machine_items": [
+      {
+        "name": "jameson irish",
+        "cups": {
+          "Standard": {
+            "materials": [
+              {
+                "name": "Jameson Irish",
+                "volume": 30
+              }
+            ],
+            "total_volume": 30,
+            "base_multiplier": 1
+          },
+          "Large": {
+            "materials": [
+              {
+                "name": "Jameson Irish",
+                "volume": 60
+              }
+            ],
+            "total_volume": 60,
+            "base_multiplier": 2
+          }
+        }
+      }
+    ]
+  },
+  {
+    "meta": {
+      "store_ids": [
+        18
+      ],
+      "devicenums": [
+        "1710743333",
+        "1710651791"
+      ]
+    },
+    "pos_items": [
+      {
+        "name": "Blenders Pride Regular",
+        "menu_item_id": 3093,
+        "plu_code": "JB760"
+      }
+    ],
+    "machine_items": [
+      {
+        "name": "blenders pride",
+        "cups": {
+          "Standard": {
+            "materials": [
+              {
+                "name": "Blender's Pride",
+                "volume": 30
+              }
+            ],
+            "total_volume": 30,
+            "base_multiplier": 1
+          },
+          "Large": {
+            "materials": [
+              {
+                "name": "Blender's Pride",
+                "volume": 60
+              }
+            ],
+            "total_volume": 60,
+            "base_multiplier": 2
+          }
+        }
+      }
+    ]
+  },
+  {
+    "meta": {
+      "store_ids": [
+        18
+      ],
+      "devicenums": [
+        "1710743333",
+        "1710651791"
+      ]
+    },
+    "pos_items": [
+      {
+        "name": "Jim Beam White",
+        "menu_item_id": 3193,
+        "plu_code": "JB777"
+      }
+    ],
+    "machine_items": [
+      {
+        "name": "jim beam white",
+        "cups": {
+          "Standard": {
+            "materials": [
+              {
+                "name": "Jim Beam White",
+                "volume": 30
+              }
+            ],
+            "total_volume": 30,
+            "base_multiplier": 1
+          },
+          "Large": {
+            "materials": [
+              {
+                "name": "Jim Beam White",
+                "volume": 60
+              }
+            ],
+            "total_volume": 60,
+            "base_multiplier": 2
+          }
+        }
+      }
+    ]
+  },
+  {
+    "meta": {
+      "store_ids": [
+        18
+      ],
+      "devicenums": [
+        "1710743333",
+        "1710651791"
+      ]
+    },
+    "pos_items": [
+      {
+        "name": "Black&White",
+        "menu_item_id": 28092,
+        "plu_code": "JB1110"
+      }
+    ],
+    "machine_items": [
+      {
+        "name": "BLACK & WHITE",
+        "cups": {
+          "Standard": {
+            "materials": [
+              {
+                "name": "Black & White",
+                "volume": 30
+              }
+            ],
+            "total_volume": 30,
+            "base_multiplier": 1
+          },
+          "Large": {
+            "materials": [
+              {
+                "name": "Black & White",
+                "volume": 60
+              }
+            ],
+            "total_volume": 60,
+            "base_multiplier": 2
+          }
+        }
+      }
+    ]
+  },
+  {
+    "meta": {
+      "store_ids": [
+        18
+      ],
+      "devicenums": [
+        "1710743333",
+        "1710651791"
+      ]
+    },
+    "pos_items": [
+      {
+        "name": "Black Dog Centenary",
+        "menu_item_id": 14096,
+        "plu_code": "JB758"
+      }
+    ],
+    "machine_items": [
+      {
+        "name": "black dog reserve",
+        "cups": {
+          "Standard": {
+            "materials": [
+              {
+                "name": "Black Dog Reserve",
+                "volume": 30
+              }
+            ],
+            "total_volume": 30,
+            "base_multiplier": 1
+          },
+          "Large": {
+            "materials": [
+              {
+                "name": "Black Dog Reserve",
+                "volume": 60
+              }
+            ],
+            "total_volume": 60,
+            "base_multiplier": 2
+          }
+        }
+      }
+    ]
+  },
+  {
+    "meta": {
+      "store_ids": [
+        18
+      ],
+      "devicenums": [
+        "1710743333",
+        "1710651791"
+      ]
+    },
+    "pos_items": [
+      {
+        "name": "CAMINO GOLD",
+        "menu_item_id": 183990,
+        "plu_code": "DIGI-88274"
+      }
+    ],
+    "machine_items": [
+      {
+        "name": "camino gold",
+        "cups": {
+          "Standard": {
+            "materials": [
+              {
+                "name": "Camino Gold",
+                "volume": 30
+              }
+            ],
+            "total_volume": 30,
+            "base_multiplier": 1
+          },
+          "Large": {
+            "materials": [
+              {
+                "name": "Camino Gold",
+                "volume": 60
+              }
+            ],
+            "total_volume": 60,
+            "base_multiplier": 2
+          }
+        }
+      }
+    ]
+  },
+  {
+    "meta": {
+      "store_ids": [
+        18
+      ],
+      "devicenums": [
+        "1710743333",
+        "1710651791"
+      ]
+    },
+    "pos_items": [
+      {
+        "name": "Kahlua",
+        "menu_item_id": 3202,
+        "plu_code": "JB778"
+      }
+    ],
+    "machine_items": [
+      {
+        "name": "kahlua coffee liqueur",
+        "cups": {
+          "Standard": {
+            "materials": [
+              {
+                "name": "Kahlua Coffee Liqueur",
+                "volume": 30
+              }
+            ],
+            "total_volume": 30,
+            "base_multiplier": 1
+          }
+        }
+      }
+    ]
+  },
+  {
+    "meta": {
+      "store_ids": [
+        18
+      ],
+      "devicenums": [
+        "1710743333",
+        "1710651791"
+      ]
+    },
+    "pos_items": [
+      {
+        "name": "Bailey'S Irish Cream",
+        "menu_item_id": 3081,
+        "plu_code": "JB755"
+      }
+    ],
+    "machine_items": [
+      {
+        "name": "baileys irish cream",
+        "cups": {
+          "Standard": {
+            "materials": [
+              {
+                "name": "Bailey's Irish Cream",
+                "volume": 30
+              }
+            ],
+            "total_volume": 30,
+            "base_multiplier": 1
+          }
+        }
+      }
+    ]
+  },
+  {
+    "meta": {
+      "store_ids": [
+        18
+      ],
+      "devicenums": [
+        "1710743333",
+        "1710651791"
+      ]
+    },
+    "pos_items": [
+      {
+        "name": "Campari Bitter",
+        "menu_item_id": 119187,
+        "plu_code": "DIGI-25800"
+      }
+    ],
+    "machine_items": [
+      {
+        "name": "camppari bitter",
+        "cups": {
+          "Standard": {
+            "materials": [
+              {
+                "name": "Camppari Bitter",
+                "volume": 30
+              }
+            ],
+            "total_volume": 30,
+            "base_multiplier": 1
+          }
+        }
+      }
+    ]
+  },
+  {
+    "meta": {
+      "store_ids": [
+        18
+      ],
+      "devicenums": [
+        "1710743333",
+        "1710651791"
+      ]
+    },
+    "pos_items": [
+      {
+        "name": "La Ananta Absinthe",
+        "menu_item_id": 119193,
+        "plu_code": "DIGI-25806"
+      }
+    ],
+    "machine_items": [
+      {
+        "name": "la ananta absinthe",
+        "cups": {
+          "Standard": {
+            "materials": [
+              {
+                "name": "La Ananta Absinthe",
+                "volume": 30
+              }
+            ],
+            "total_volume": 30,
+            "base_multiplier": 1
+          }
+        }
+      }
+    ]
+  },
+  {
+    "meta": {
+      "store_ids": [
+        18
+      ],
+      "devicenums": [
+        "1710743333",
+        "1710651791"
+      ]
+    },
+    "pos_items": [
+      {
+        "name": "Fireball",
+        "menu_item_id": 119195,
+        "plu_code": "DIGI-25808"
+      }
+    ],
+    "machine_items": [
+      {
+        "name": "fireball cinnamon whisky",
+        "cups": {
+          "Standard": {
+            "materials": [
+              {
+                "name": "Fireball Cinnamon Whisky",
+                "volume": 30
+              }
+            ],
+            "total_volume": 30,
+            "base_multiplier": 1
+          }
+        }
+      }
+    ]
+  },
+  {
+    "meta": {
+      "store_ids": [
+        18
+      ],
+      "devicenums": [
+        "1710743333",
+        "1710651791"
+      ]
+    },
+    "pos_items": [
+      {
+        "name": "Jagermeister",
+        "menu_item_id": 3190,
+        "plu_code": "JB775"
+      }
+    ],
+    "machine_items": [
+      {
+        "name": "jagermeister",
+        "cups": {
+          "Large": {
+            "materials": [
+              {
+                "name": "Jagermeister",
+                "volume": 60
+              }
+            ],
+            "total_volume": 60,
+            "base_multiplier": 2
+          },
+          "Standard": {
+            "materials": [
+              {
+                "name": "Jagermeister",
+                "volume": 30
+              }
+            ],
+            "total_volume": 30,
+            "base_multiplier": 1
+          }
+        }
+      }
+    ]
+  },
+  {
+    "meta": {
+      "store_ids": [
+        17,
+        18,
+        42
+      ],
+      "devicenums": [
+        "1710743333",
+        "1710651791"
+      ]
+    },
+    "pos_items": [
+      {
+        "name": "sonic garden",
+        "menu_item_id": 178888,
+        "plu_code": "DIGI-83626"
+      }
+    ],
+    "machine_items": [
+      {
+        "name": "sonic garden cocktail",
+        "cups": {
+          "Standard": {
+            "materials": [
+              {
+                "name": "Blue Riband Gin",
+                "volume": 60
+              },
+              {
+                "name": "Blue Melon Cordial",
+                "volume": 45
+              }
+            ],
+            "total_volume": 105,
+            "base_multiplier": 1
+          },
+          "2 X": {
+            "materials": [
+              {
+                "name": "Blue Riband Gin",
+                "volume": 120
+              },
+              {
+                "name": "Blue Melon Cordial",
+                "volume": 90
+              }
+            ],
+            "total_volume": 210,
+            "base_multiplier": 2
+          }
+        }
+      }
+    ]
+  },
+  {
+    "meta": {
+      "store_ids": [
+        17,
+        18,
+        42
+      ],
+      "devicenums": [
+        "1710743333",
+        "1710651791"
+      ]
+    },
+    "pos_items": [
+      {
+        "name": "sonic garden mocktail",
+        "menu_item_id": 179143,
+        "plu_code": "DIGI-83918"
+      }
+    ],
+    "machine_items": [
+      {
+        "name": "sonic garden mocktail",
+        "cups": {
+          "2 X": {
+            "materials": [
+              {
+                "name": "Lime Juice",
+                "volume": 60
+              },
+              {
+                "name": "Blue Melon Cordial",
+                "volume": 120
+              }
+            ],
+            "total_volume": 180,
+            "base_multiplier": 2
+          },
+          "Standard": {
+            "materials": [
+              {
+                "name": "Lime Juice",
+                "volume": 30
+              },
+              {
+                "name": "Blue Melon Cordial",
+                "volume": 60
+              }
+            ],
+            "total_volume": 90,
+            "base_multiplier": 1
+          }
+        }
+      }
+    ]
+  },
+  {
+    "meta": {
+      "store_ids": [
+        17,
+        18,
+        42
+      ],
+      "devicenums": [
+        "1710743333",
+        "1710651791"
+      ]
+    },
+    "pos_items": [
+      {
+        "name": "kami kaze",
+        "menu_item_id": 179039,
+        "plu_code": "DIGI-83798"
+      }
+    ],
+    "machine_items": [
+      {
+        "name": "kamikaze",
+        "cups": {
+          "2 X": {
+            "materials": [
+              {
+                "name": "Oxyzen Vodka",
+                "volume": 60
+              },
+              {
+                "name": "Lime Juice",
+                "volume": 20
+              },
+              {
+                "name": "Triple Sec Syrup",
+                "volume": 20
+              }
+            ],
+            "total_volume": 100,
+            "base_multiplier": 2
+          },
+          "Standard": {
+            "materials": [
+              {
+                "name": "Oxyzen Vodka",
+                "volume": 30
+              },
+              {
+                "name": "Lime Juice",
+                "volume": 10
+              },
+              {
+                "name": "Triple Sec Syrup",
+                "volume": 10
+              }
+            ],
+            "total_volume": 50,
+            "base_multiplier": 1
+          }
+        }
+      }
+    ]
+  },
+  {
+    "meta": {
+      "store_ids": [
+        18
+      ],
+      "devicenums": [
+        "1710743333",
+        "1710651791"
+      ]
+    },
+    "pos_items": [
+      {
+        "name": "Sula Shiraz Cabernet",
+        "menu_item_id": 14102,
+        "plu_code": "JB120"
+      }
+    ],
+    "machine_items": [
+      {
+        "name": "sula shiraz red wine",
+        "cups": {
+          "Standard 150 ml": {
+            "materials": [
+              {
+                "name": "Sula Shiraz Red Wine",
+                "volume": 150
+              }
+            ],
+            "total_volume": 150,
+            "base_multiplier": 1
+          },
+          "Small": {
+            "materials": [
+              {
+                "name": "Sula Shiraz Red Wine",
+                "volume": 30
+              }
+            ],
+            "total_volume": 30,
+            "base_multiplier": 0.2
+          }
+        }
+      }
+    ]
+  },
+  {
+    "meta": {
+      "store_ids": [
+        18
+      ],
+      "devicenums": [
+        "1710743333",
+        "1710651791"
+      ]
+    },
+    "pos_items": [
+      {
+        "name": "Sula Shiraz Cabernet (By Bottle)",
+        "menu_item_id": 3283,
+        "plu_code": "JB842"
+      }
+    ],
+    "machine_items": [
+      {
+        "name": "jacobs shiraz red wine",
+        "cups": {
+          "Standard 150 ml": {
+            "materials": [
+              {
+                "name": "Jacob's Shiraz Red Wine",
+                "volume": 150
+              }
+            ],
+            "total_volume": 150,
+            "base_multiplier": 1
+          },
+          "Small": {
+            "materials": [
+              {
+                "name": "Jacob's Shiraz Red Wine",
+                "volume": 30
+              }
+            ],
+            "total_volume": 30,
+            "base_multiplier": 0.2
+          }
+        }
+      }
+    ]
+  },
+  {
+    "meta": {
+      "store_ids": [
+        18
+      ],
+      "devicenums": [
+        "1710743333",
+        "1710651791"
+      ]
+    },
+    "pos_items": [
+      {
+        "name": "Sula Zinfandal Rose (By Bottle)",
+        "menu_item_id": 119213,
+        "plu_code": "DIGI-25827"
+      }
+    ],
+    "machine_items": [
+      {
+        "name": "sula zinfandal rose wine",
+        "cups": {
+          "Standard 150 ml": {
+            "materials": [
+              {
+                "name": "Sula Zinfandal Rose Wine",
+                "volume": 150
+              }
+            ],
+            "total_volume": 150,
+            "base_multiplier": 1
+          },
+          "Small": {
+            "materials": [
+              {
+                "name": "Sula Zinfandal Rose Wine",
+                "volume": 30
+              }
+            ],
+            "total_volume": 30,
+            "base_multiplier": 0.2
+          }
+        }
+      }
+    ]
+  },
+  {
+    "meta": {
+      "store_ids": [
+        18
+      ],
+      "devicenums": [
+        "1710743333",
+        "1710651791"
+      ]
+    },
+    "pos_items": [
+      {
+        "name": "Jacobs Creek Chardonnnay",
+        "menu_item_id": 14105,
+        "plu_code": "JB843"
+      }
+    ],
+    "machine_items": [
+      {
+        "name": "jacobs chardonnay white wine",
+        "cups": {
+          "Standard 150 ml": {
+            "materials": [
+              {
+                "name": "Jacob's Chardonnay White Wine",
+                "volume": 150
+              }
+            ],
+            "total_volume": 150,
+            "base_multiplier": 1
+          },
+          "Small": {
+            "materials": [
+              {
+                "name": "Jacob's Chardonnay White Wine",
+                "volume": 30
+              }
+            ],
+            "total_volume": 30,
+            "base_multiplier": 0.2
+          }
+        }
+      }
+    ]
+  },
+  {
+    "meta": {
+      "store_ids": [
+        18
+      ],
+      "devicenums": [
+        "1710743333",
+        "1710651791"
+      ]
+    },
+    "pos_items": [
+      {
+        "name": "Sula Chenin Blanc white",
+        "menu_item_id": 14103,
+        "plu_code": "JB841"
+      }
+    ],
+    "machine_items": [
+      {
+        "name": "sula chenin blanc white wine",
+        "cups": {
+          "Standard 150 ml": {
+            "materials": [
+              {
+                "name": "Sula Chenin Blanc White Wine",
+                "volume": 150
+              }
+            ],
+            "total_volume": 150,
+            "base_multiplier": 1
+          },
+          "Small": {
+            "materials": [
+              {
+                "name": "Sula Chenin Blanc White Wine",
+                "volume": 30
+              }
+            ],
+            "total_volume": 30,
+            "base_multiplier": 0.2
+          }
+        }
+      }
+    ]
+  },
+  {
+    "meta": {
+      "store_ids": [
+        17,
+        18,
+        42
+      ],
+      "devicenums": [
+        "1710743333",
+        "1710651791"
+      ]
+    },
+    "pos_items": [
+      {
+        "name": "Mansion House",
+        "menu_item_id": 3210,
+        "plu_code": "JB029"
+      }
+    ],
+    "machine_items": [
+      {
+        "name": "hot toddy",
+        "cups": {
+          "2 X": {
+            "materials": [
+              {
+                "name": "Mansion House Brandy",
+                "volume": 120
+              },
+              {
+                "name": "Hm Honey Syrup",
+                "volume": 120
+              },
+              {
+                "name": "Apple Juice",
+                "volume": 120
+              }
+            ],
+            "total_volume": 360,
+            "base_multiplier": 2
+          },
+          "Standard": {
+            "materials": [
+              {
+                "name": "Mansion House Brandy",
+                "volume": 60
+              },
+              {
+                "name": "Hm Honey Syrup",
+                "volume": 60
+              },
+              {
+                "name": "Apple Juice",
+                "volume": 60
+              }
+            ],
+            "total_volume": 180,
+            "base_multiplier": 1
+          }
+        }
+      }
+    ]
+  },
+  {
+    "meta": {
+      "store_ids": [
+        17,
+        18,
+        42
+      ],
+      "devicenums": [
+        "1710743333",
+        "1710651791"
+      ]
+    },
+    "pos_items": [
+      {
+        "name": "Strawberry Punch",
+        "menu_item_id": 3279,
+        "plu_code": "JB046"
+      }
+    ],
+    "machine_items": [
+      {
+        "name": "strawberry punch",
+        "cups": {
+          "Standard": {
+            "materials": [
+              {
+                "name": "Amul Fresh Cream",
+                "volume": 90
+              },
+              {
+                "name": "Apple Juice",
+                "volume": 120
+              },
+              {
+                "name": "Strawberry Syrup",
+                "volume": 45
+              }
+            ],
+            "total_volume": 255,
+            "base_multiplier": 1
+          },
+          "2 X": {
+            "materials": [
+              {
+                "name": "Amul Fresh Cream",
+                "volume": 180
+              },
+              {
+                "name": "Apple Juice",
+                "volume": 240
+              },
+              {
+                "name": "Strawberry Syrup",
+                "volume": 90
+              }
+            ],
+            "total_volume": 510,
+            "base_multiplier": 2
+          }
+        }
+      }
+    ]
+  },
+  {
+    "meta": {
+      "store_ids": [
+        18
+      ],
+      "devicenums": [
+        "1710743333",
+        "1710651791"
+      ]
+    },
+    "pos_items": [
+      {
+        "name": "Jagerbomb",
+        "menu_item_id": 3189,
+        "plu_code": "JB033"
+      }
+    ],
+    "machine_items": [
+      {
+        "name": "jager bomb",
+        "cups": {
+          "Standard": {
+            "materials": [
+              {
+                "name": "Jagermeister",
+                "volume": 30
+              }
+            ],
+            "total_volume": 30,
+            "base_multiplier": 1
+          },
+          "2 X": {
+            "materials": [
+              {
+                "name": "Jagermeister",
+                "volume": 60
+              }
+            ],
+            "total_volume": 60,
+            "base_multiplier": 2
+          }
+        }
+      }
+    ]
+  },
+  {
+    "meta": {
+      "store_ids": [
+        18
+      ],
+      "devicenums": [
+        "1710743333",
+        "1710651791"
+      ]
+    },
+    "pos_items": [
+      {
+        "name": "IRISH BOMB",
+        "menu_item_id": 179046,
+        "plu_code": "DIGI-83805"
+      }
+    ],
+    "machine_items": [
+      {
+        "name": "irish bomb",
+        "cups": {
+          "Standard": {
+            "materials": [
+              {
+                "name": "Jameson Irish",
+                "volume": 30
+              }
+            ],
+            "total_volume": 30,
+            "base_multiplier": 1
+          }
+        }
+      }
+    ]
+  },
+  {
+    "meta": {
+      "store_ids": [
+        18
+      ],
+      "devicenums": [
+        "1710743333",
+        "1710651791"
+      ]
+    },
+    "pos_items": [
+      {
+        "name": "B-52",
+        "menu_item_id": 3076,
+        "plu_code": "JB031"
+      }
+    ],
+    "machine_items": [
+      {
+        "name": "b52 triple sec only",
+        "cups": {
+          "Standard": {
+            "materials": [
+              {
+                "name": "Triple Sec Syrup",
+                "volume": 20
+              }
+            ],
+            "total_volume": 20,
+            "base_multiplier": 1
+          },
+          "2 X": {
+            "materials": [
+              {
+                "name": "Triple Sec Syrup",
+                "volume": 40
+              }
+            ],
+            "total_volume": 40,
+            "base_multiplier": 2
+          }
+        }
+      }
+    ]
+  },
+  {
+    "meta": {
+      "store_ids": [
+        17,
+        18,
+        42
+      ],
+      "devicenums": [
+        "1710743333",
+        "1710651791"
+      ]
+    },
+    "pos_items": [
+      {
+        "name": "MANGO CHILLI G&T",
+        "menu_item_id": 178994,
+        "plu_code": "DIGI-83749"
+      }
+    ],
+    "machine_items": [
+      {
+        "name": "mango chilli g&t",
+        "cups": {
+          "Standard": {
+            "materials": [
+              {
+                "name": "Blue Riband Gin",
+                "volume": 50
+              },
+              {
+                "name": "Lime Juice",
+                "volume": 15
+              },
+              {
+                "name": "(hm Chilli Syrup)",
+                "volume": 10
+              }
+            ],
+            "total_volume": 75,
+            "base_multiplier": 1
+          },
+          "2 X": {
+            "materials": [
+              {
+                "name": "Blue Riband Gin",
+                "volume": 100
+              },
+              {
+                "name": "Lime Juice",
+                "volume": 30
+              },
+              {
+                "name": "(hm Chilli Syrup)",
+                "volume": 20
+              }
+            ],
+            "total_volume": 150,
+            "base_multiplier": 2
+          }
+        }
+      }
+    ]
+  },
+  {
+    "meta": {
+      "store_ids": [
+        17,
+        18,
+        42
+      ],
+      "devicenums": [
+        "1710743333",
+        "1710651791"
+      ]
+    },
+    "pos_items": [
+      {
+        "name": "INDIGO ISLE",
+        "menu_item_id": 178996,
+        "plu_code": "DIGI-83751"
+      }
+    ],
+    "machine_items": [
+      {
+        "name": "indigo isle",
+        "cups": {
+          "Standard": {
+            "materials": [
+              {
+                "name": "Oxyzen Vodka",
+                "volume": 60
+              },
+              {
+                "name": "Lime Juice",
+                "volume": 20
+              },
+              {
+                "name": "Sugar Syrup",
+                "volume": 30
+              },
+              {
+                "name": "Blue Pea",
+                "volume": 20
+              }
+            ],
+            "total_volume": 130,
+            "base_multiplier": 1
+          },
+          "2 X": {
+            "materials": [
+              {
+                "name": "Oxyzen Vodka",
+                "volume": 120
+              },
+              {
+                "name": "Lime Juice",
+                "volume": 40
+              },
+              {
+                "name": "Sugar Syrup",
+                "volume": 60
+              },
+              {
+                "name": "Blue Pea",
+                "volume": 40
+              }
+            ],
+            "total_volume": 260,
+            "base_multiplier": 2
+          }
+        }
+      }
+    ]
+  },
+  {
+    "meta": {
+      "store_ids": [
+        17,
+        18,
+        42
+      ],
+      "devicenums": [
+        "1710743333",
+        "1710651791"
+      ]
+    },
+    "pos_items": [
+      {
+        "name": "JAMUN FROST",
+        "menu_item_id": 178997,
+        "plu_code": "DIGI-83752"
+      }
+    ],
+    "machine_items": [
+      {
+        "name": "jamun frost",
+        "cups": {
+          "2 X": {
+            "materials": [
+              {
+                "name": "Warehouse Tequila",
+                "volume": 120
+              },
+              {
+                "name": "Lime Juice",
+                "volume": 50
+              },
+              {
+                "name": "Elderflower Syrup",
+                "volume": 60
+              }
+            ],
+            "total_volume": 230,
+            "base_multiplier": 2
+          },
+          "Standard": {
+            "materials": [
+              {
+                "name": "Warehouse Tequila",
+                "volume": 60
+              },
+              {
+                "name": "Lime Juice",
+                "volume": 25
+              },
+              {
+                "name": "Elderflower Syrup",
+                "volume": 30
+              }
+            ],
+            "total_volume": 115,
+            "base_multiplier": 1
+          }
+        }
+      }
+    ]
+  },
+  {
+    "meta": {
+      "store_ids": [
+        17,
+        18,
+        42
+      ],
+      "devicenums": [
+        "1710743333",
+        "1710651791"
+      ]
+    },
+    "pos_items": [
+      {
+        "name": "DISCO MELON MARG",
+        "menu_item_id": 178998,
+        "plu_code": "DIGI-83753"
+      }
+    ],
+    "machine_items": [
+      {
+        "name": "disco melon marg",
+        "cups": {
+          "2 X": {
+            "materials": [
+              {
+                "name": "Warehouse Tequila",
+                "volume": 120
+              },
+              {
+                "name": "Lime Juice",
+                "volume": 70
+              },
+              {
+                "name": "Watermelon Syrup",
+                "volume": 40
+              },
+              {
+                "name": "(hm Chilli Syrup)",
+                "volume": 30
+              }
+            ],
+            "total_volume": 260,
+            "base_multiplier": 2
+          },
+          "Standard": {
+            "materials": [
+              {
+                "name": "Warehouse Tequila",
+                "volume": 60
+              },
+              {
+                "name": "Lime Juice",
+                "volume": 35
+              },
+              {
+                "name": "Watermelon Syrup",
+                "volume": 20
+              },
+              {
+                "name": "(hm Chilli Syrup)",
+                "volume": 15
+              }
+            ],
+            "total_volume": 130,
+            "base_multiplier": 1
+          }
+        }
+      }
+    ]
+  },
+  {
+    "meta": {
+      "store_ids": [
+        17,
+        18,
+        42
+      ],
+      "devicenums": [
+        "1710743333",
+        "1710651791"
+      ]
+    },
+    "pos_items": [
+      {
+        "name": "PURPLE HAZE",
+        "menu_item_id": 178988,
+        "plu_code": "DIGI-83743"
+      }
+    ],
+    "machine_items": [
+      {
+        "name": "purple haze",
+        "cups": {
+          "Standard": {
+            "materials": [
+              {
+                "name": "Blue Riband Gin",
+                "volume": 60
+              },
+              {
+                "name": "Lime Juice",
+                "volume": 25
+              },
+              {
+                "name": "Jalapeno Brine Syrup",
+                "volume": 15
+              },
+              {
+                "name": "Blue Pea",
+                "volume": 20
+              }
+            ],
+            "total_volume": 120,
+            "base_multiplier": 1
+          },
+          "2 X": {
+            "materials": [
+              {
+                "name": "Blue Riband Gin",
+                "volume": 120
+              },
+              {
+                "name": "Lime Juice",
+                "volume": 50
+              },
+              {
+                "name": "Jalapeno Brine Syrup",
+                "volume": 30
+              }
+            ],
+            "total_volume": 200,
+            "base_multiplier": 1.667
+          }
+        }
+      }
+    ]
+  },
+  {
+    "meta": {
+      "store_ids": [
+        17,
+        18,
+        42
+      ],
+      "devicenums": [
+        "1710743333",
+        "1710651791"
+      ]
+    },
+    "pos_items": [
+      {
+        "name": "GRANNY SMITH MARTINI",
+        "menu_item_id": 178991,
+        "plu_code": "DIGI-83746"
+      }
+    ],
+    "machine_items": [
+      {
+        "name": "granny smith martini",
+        "cups": {
+          "2 X": {
+            "materials": [
+              {
+                "name": "Oxyzen Vodka",
+                "volume": 120
+              },
+              {
+                "name": "Lime Juice",
+                "volume": 60
+              },
+              {
+                "name": "Green Apple Syrup",
+                "volume": 50
+              }
+            ],
+            "total_volume": 230,
+            "base_multiplier": 2
+          },
+          "Standard": {
+            "materials": [
+              {
+                "name": "Oxyzen Vodka",
+                "volume": 60
+              },
+              {
+                "name": "Lime Juice",
+                "volume": 30
+              },
+              {
+                "name": "Green Apple Syrup",
+                "volume": 25
+              }
+            ],
+            "total_volume": 115,
+            "base_multiplier": 1
+          }
+        }
+      }
+    ]
+  },
+  {
+    "meta": {
+      "store_ids": [
+        17,
+        18,
+        42
+      ],
+      "devicenums": [
+        "1710743333",
+        "1710651791"
+      ]
+    },
+    "pos_items": [
+      {
+        "name": "BALI BLISS",
+        "menu_item_id": 178999,
+        "plu_code": "DIGI-83754"
+      }
+    ],
+    "machine_items": [
+      {
+        "name": "bali bliss",
+        "cups": {
+          "Standard": {
+            "materials": [
+              {
+                "name": "Blue Riband Gin",
+                "volume": 60
+              },
+              {
+                "name": "Lime Juice",
+                "volume": 30
+              },
+              {
+                "name": "(hm Cucumber Syrup)",
+                "volume": 60
+              }
+            ],
+            "total_volume": 150,
+            "base_multiplier": 1
+          },
+          "2 X": {
+            "materials": [
+              {
+                "name": "Blue Riband Gin",
+                "volume": 120
+              },
+              {
+                "name": "Lime Juice",
+                "volume": 60
+              },
+              {
+                "name": "(hm Cucumber Syrup)",
+                "volume": 120
+              }
+            ],
+            "total_volume": 300,
+            "base_multiplier": 2
+          }
+        }
+      }
+    ]
+  },
+  {
+    "meta": {
+      "store_ids": [
+        17,
+        18,
+        42
+      ],
+      "devicenums": [
+        "1710743333",
+        "1710651791"
+      ]
+    },
+    "pos_items": [
+      {
+        "name": "KAENG KARI",
+        "menu_item_id": 179000,
+        "plu_code": "DIGI-83755"
+      }
+    ],
+    "machine_items": [
+      {
+        "name": "kaeng kari",
+        "cups": {
+          "Standard": {
+            "materials": [
+              {
+                "name": "Warehouse Tequila",
+                "volume": 60
+              },
+              {
+                "name": "Lime Juice",
+                "volume": 30
+              },
+              {
+                "name": "(hm Picante Cordial )",
+                "volume": 50
+              }
+            ],
+            "total_volume": 140,
+            "base_multiplier": 1
+          },
+          "2 X": {
+            "materials": [
+              {
+                "name": "Warehouse Tequila",
+                "volume": 120
+              },
+              {
+                "name": "Lime Juice",
+                "volume": 60
+              },
+              {
+                "name": "(hm Picante Cordial )",
+                "volume": 100
+              }
+            ],
+            "total_volume": 280,
+            "base_multiplier": 2
+          }
+        }
+      }
+    ]
+  },
+  {
+    "meta": {
+      "store_ids": [
+        17,
+        18,
+        42
+      ],
+      "devicenums": [
+        "1710743333",
+        "1710651791"
+      ]
+    },
+    "pos_items": [
+      {
+        "name": "KIMCHI KRAKEN",
+        "menu_item_id": 179001,
+        "plu_code": "DIGI-83756"
+      }
+    ],
+    "machine_items": [
+      {
+        "name": "kimchi kraken",
+        "cups": {
+          "Standard": {
+            "materials": [
+              {
+                "name": "Oxyzen Vodka",
+                "volume": 60
+              },
+              {
+                "name": "Lime Juice",
+                "volume": 30
+              },
+              {
+                "name": "( Hm Kimchi Cordial )",
+                "volume": 60
+              }
+            ],
+            "total_volume": 150,
+            "base_multiplier": 1
+          },
+          "2 X": {
+            "materials": [
+              {
+                "name": "Oxyzen Vodka",
+                "volume": 120
+              },
+              {
+                "name": "Lime Juice",
+                "volume": 60
+              },
+              {
+                "name": "( Hm Kimchi Cordial )",
+                "volume": 120
+              }
+            ],
+            "total_volume": 300,
+            "base_multiplier": 2
+          }
+        }
+      }
+    ]
+  },
+  {
+    "meta": {
+      "store_ids": [
+        17,
+        18,
+        42
+      ],
+      "devicenums": [
+        "1710743333",
+        "1710651791"
+      ]
+    },
+    "pos_items": [
+      {
+        "name": "Sex On The Beach",
+        "menu_item_id": 3266,
+        "plu_code": "JB026"
+      }
+    ],
+    "machine_items": [
+      {
+        "name": "sex on the beach",
+        "cups": {
+          "Standard": {
+            "materials": [
+              {
+                "name": "Oxyzen Vodka",
+                "volume": 60
+              },
+              {
+                "name": "Cranberry Juice",
+                "volume": 30
+              },
+              {
+                "name": "Orange Juice",
+                "volume": 60
+              },
+              {
+                "name": "Lime Juice",
+                "volume": 15
+              },
+              {
+                "name": "Peach Syrup",
+                "volume": 25
+              }
+            ],
+            "total_volume": 190,
+            "base_multiplier": 1
+          },
+          "2 X": {
+            "materials": [
+              {
+                "name": "Oxyzen Vodka",
+                "volume": 120
+              },
+              {
+                "name": "Cranberry Juice",
+                "volume": 60
+              },
+              {
+                "name": "Orange Juice",
+                "volume": 120
+              },
+              {
+                "name": "Lime Juice",
+                "volume": 30
+              },
+              {
+                "name": "Peach Syrup",
+                "volume": 50
+              }
+            ],
+            "total_volume": 380,
+            "base_multiplier": 2
+          }
+        }
+      }
+    ]
+  },
+  {
+    "meta": {
+      "store_ids": [
+        17,
+        18,
+        42
+      ],
+      "devicenums": [
+        "1710743333",
+        "1710651791"
+      ]
+    },
+    "pos_items": [
+      {
+        "name": "Cosmopolitan",
+        "menu_item_id": 3137,
+        "plu_code": "JB024"
+      }
+    ],
+    "machine_items": [
+      {
+        "name": "cosmopolitan",
+        "cups": {
+          "2 X": {
+            "materials": [
+              {
+                "name": "Oxyzen Vodka",
+                "volume": 120
+              },
+              {
+                "name": "Cranberry Juice",
+                "volume": 120
+              },
+              {
+                "name": "Lime Juice",
+                "volume": 40
+              },
+              {
+                "name": "Triple Sec Syrup",
+                "volume": 40
+              }
+            ],
+            "total_volume": 320,
+            "base_multiplier": 1.882
+          },
+          "Standard": {
+            "materials": [
+              {
+                "name": "Oxyzen Vodka",
+                "volume": 60
+              },
+              {
+                "name": "Cranberry Juice",
+                "volume": 60
+              },
+              {
+                "name": "Lime Juice",
+                "volume": 20
+              },
+              {
+                "name": "Triple Sec Syrup",
+                "volume": 30
+              }
+            ],
+            "total_volume": 170,
+            "base_multiplier": 1
+          }
+        }
+      }
+    ]
+  },
+  {
+    "meta": {
+      "store_ids": [
+        17,
+        18,
+        42
+      ],
+      "devicenums": [
+        "1710743333",
+        "1710651791"
+      ]
+    },
+    "pos_items": [
+      {
+        "name": "Margarita",
+        "menu_item_id": 3211,
+        "plu_code": "JB015"
+      }
+    ],
+    "machine_items": [
+      {
+        "name": "margarita",
+        "cups": {
+          "Standard": {
+            "materials": [
+              {
+                "name": "Warehouse Tequila",
+                "volume": 60
+              },
+              {
+                "name": "Lime Juice",
+                "volume": 30
+              },
+              {
+                "name": "Triple Sec Syrup",
+                "volume": 30
+              }
+            ],
+            "total_volume": 120,
+            "base_multiplier": 1
+          },
+          "2 X": {
+            "materials": [
+              {
+                "name": "Warehouse Tequila",
+                "volume": 120
+              },
+              {
+                "name": "Lime Juice",
+                "volume": 60
+              },
+              {
+                "name": "Triple Sec Syrup",
+                "volume": 60
+              }
+            ],
+            "total_volume": 240,
+            "base_multiplier": 2
+          }
+        }
+      }
+    ]
+  },
+  {
+    "meta": {
+      "store_ids": [
+        17,
+        18,
+        42
+      ],
+      "devicenums": [
+        "1710743333",
+        "1710651791"
+      ]
+    },
+    "pos_items": [
+      {
+        "name": "WHISKEY SOUR",
+        "menu_item_id": 179030,
+        "plu_code": "DIGI-83789"
+      }
+    ],
+    "machine_items": [
+      {
+        "name": "whisky sour",
+        "cups": {
+          "2 X": {
+            "materials": [
+              {
+                "name": "Imperial Blue",
+                "volume": 120
+              },
+              {
+                "name": "Lime Juice",
+                "volume": 50
+              },
+              {
+                "name": "Sugar Syrup",
+                "volume": 40
+              }
+            ],
+            "total_volume": 210,
+            "base_multiplier": 2
+          },
+          "Standard": {
+            "materials": [
+              {
+                "name": "Imperial Blue",
+                "volume": 60
+              },
+              {
+                "name": "Lime Juice",
+                "volume": 25
+              },
+              {
+                "name": "Sugar Syrup",
+                "volume": 20
+              }
+            ],
+            "total_volume": 105,
+            "base_multiplier": 1
+          }
+        }
+      }
+    ]
+  },
+  {
+    "meta": {
+      "store_ids": [
+        17,
+        18,
+        42
+      ],
+      "devicenums": [
+        "1710743333",
+        "1710651791"
+      ]
+    },
+    "pos_items": [
+      {
+        "name": "Long Island Ice Tea",
+        "menu_item_id": 3204,
+        "plu_code": "JB013"
+      }
+    ],
+    "machine_items": [
+      {
+        "name": "long island ice tea",
+        "cups": {
+          "2 X": {
+            "materials": [
+              {
+                "name": "Blue Riband Gin",
+                "volume": 60
+              },
+              {
+                "name": "Old Monk White Rum",
+                "volume": 60
+              },
+              {
+                "name": "Oxyzen Vodka",
+                "volume": 60
+              },
+              {
+                "name": "Warehouse Tequila",
+                "volume": 60
+              },
+              {
+                "name": "Lime Juice",
+                "volume": 40
+              },
+              {
+                "name": "Triple Sec Syrup",
+                "volume": 50
+              }
+            ],
+            "total_volume": 330,
+            "base_multiplier": 2
+          },
+          "Standard": {
+            "materials": [
+              {
+                "name": "Blue Riband Gin",
+                "volume": 30
+              },
+              {
+                "name": "Old Monk White Rum",
+                "volume": 30
+              },
+              {
+                "name": "Oxyzen Vodka",
+                "volume": 30
+              },
+              {
+                "name": "Warehouse Tequila",
+                "volume": 30
+              },
+              {
+                "name": "Lime Juice",
+                "volume": 20
+              },
+              {
+                "name": "Triple Sec Syrup",
+                "volume": 25
+              }
+            ],
+            "total_volume": 165,
+            "base_multiplier": 1
+          }
+        }
+      }
+    ]
+  },
+  {
+    "meta": {
+      "store_ids": [
+        17,
+        18,
+        42
+      ],
+      "devicenums": [
+        "1710743333",
+        "1710651791"
+      ]
+    },
+    "pos_items": [
+      {
+        "name": "Classic Mojito",
+        "menu_item_id": 3131,
+        "plu_code": "JB023"
+      }
+    ],
+    "machine_items": [
+      {
+        "name": "classic mojito",
+        "cups": {
+          "2 X": {
+            "materials": [
+              {
+                "name": "Old Monk White Rum",
+                "volume": 120
+              },
+              {
+                "name": "Lime Juice",
+                "volume": 60
+              },
+              {
+                "name": "Sugar Syrup",
+                "volume": 90
+              }
+            ],
+            "total_volume": 270,
+            "base_multiplier": 2
+          },
+          "Standard": {
+            "materials": [
+              {
+                "name": "Old Monk White Rum",
+                "volume": 60
+              },
+              {
+                "name": "Lime Juice",
+                "volume": 30
+              },
+              {
+                "name": "Sugar Syrup",
+                "volume": 45
+              }
+            ],
+            "total_volume": 135,
+            "base_multiplier": 1
+          }
+        }
+      }
+    ]
+  },
+  {
+    "meta": {
+      "store_ids": [
+        17,
+        18,
+        42
+      ],
+      "devicenums": [
+        "1710743333",
+        "1710651791"
+      ]
+    },
+    "pos_items": [
+      {
+        "name": "BULLFROG",
+        "menu_item_id": 134639,
+        "plu_code": "DIGI-44505"
+      }
+    ],
+    "machine_items": [
+      {
+        "name": "bull frog",
+        "cups": {
+          "2 X": {
+            "materials": [
+              {
+                "name": "Blue Riband Gin",
+                "volume": 60
+              },
+              {
+                "name": "Old Monk White Rum",
+                "volume": 60
+              },
+              {
+                "name": "Oxyzen Vodka",
+                "volume": 60
+              },
+              {
+                "name": "Warehouse Tequila",
+                "volume": 60
+              },
+              {
+                "name": "Lime Juice",
+                "volume": 30
+              },
+              {
+                "name": "Triple Sec Syrup",
+                "volume": 50
+              }
+            ],
+            "total_volume": 320,
+            "base_multiplier": 2
+          },
+          "Standard": {
+            "materials": [
+              {
+                "name": "Blue Riband Gin",
+                "volume": 30
+              },
+              {
+                "name": "Old Monk White Rum",
+                "volume": 30
+              },
+              {
+                "name": "Oxyzen Vodka",
+                "volume": 30
+              },
+              {
+                "name": "Warehouse Tequila",
+                "volume": 30
+              },
+              {
+                "name": "Lime Juice",
+                "volume": 15
+              },
+              {
+                "name": "Triple Sec Syrup",
+                "volume": 25
+              }
+            ],
+            "total_volume": 160,
+            "base_multiplier": 1
+          }
+        }
+      }
+    ]
+  },
+  {
+    "meta": {
+      "store_ids": [
+        17,
+        18,
+        42
+      ],
+      "devicenums": [
+        "1710743333",
+        "1710651791"
+      ]
+    },
+    "pos_items": [
+      {
+        "name": "Tequila Sunrise",
+        "menu_item_id": 14111,
+        "plu_code": "JB849"
+      }
+    ],
+    "machine_items": [
+      {
+        "name": "tequila sunrise",
+        "cups": {
+          "2 X": {
+            "materials": [
+              {
+                "name": "Warehouse Tequila",
+                "volume": 120
+              },
+              {
+                "name": "Orange Juice",
+                "volume": 240
+              }
+            ],
+            "total_volume": 360,
+            "base_multiplier": 2
+          },
+          "Standard": {
+            "materials": [
+              {
+                "name": "Warehouse Tequila",
+                "volume": 60
+              },
+              {
+                "name": "Orange Juice",
+                "volume": 120
+              }
+            ],
+            "total_volume": 180,
+            "base_multiplier": 1
+          }
+        }
+      }
+    ]
+  },
+  {
+    "meta": {
+      "store_ids": [
+        17,
+        18,
+        42
+      ],
+      "devicenums": [
+        "1710743333",
+        "1710651791"
+      ]
+    },
+    "pos_items": [
+      {
+        "name": "Pina Colada",
+        "menu_item_id": 8845,
+        "plu_code": "JB317"
+      }
+    ],
+    "machine_items": [
+      {
+        "name": "pina colada",
+        "cups": {
+          "Standard": {
+            "materials": [
+              {
+                "name": "Old Monk White Rum",
+                "volume": 60
+              },
+              {
+                "name": "Pineapple Juice",
+                "volume": 90
+              },
+              {
+                "name": "Amul Fresh Cream",
+                "volume": 60
+              },
+              {
+                "name": "Coconut Syrup",
+                "volume": 25
+              }
+            ],
+            "total_volume": 235,
+            "base_multiplier": 1
+          },
+          "2 X": {
+            "materials": [
+              {
+                "name": "Old Monk White Rum",
+                "volume": 120
+              },
+              {
+                "name": "Pineapple Juice",
+                "volume": 180
+              },
+              {
+                "name": "Amul Fresh Cream",
+                "volume": 120
+              },
+              {
+                "name": "Coconut Syrup",
+                "volume": 50
+              }
+            ],
+            "total_volume": 470,
+            "base_multiplier": 2
+          }
+        }
+      }
+    ]
+  },
+  {
+    "meta": {
+      "store_ids": [
+        17,
+        18,
+        42
+      ],
+      "devicenums": [
+        "1710743333",
+        "1710651791"
+      ]
+    },
+    "pos_items": [
+      {
+        "name": "Paan Shot",
+        "menu_item_id": 45209,
+        "plu_code": "JB2030"
+      }
+    ],
+    "machine_items": [
+      {
+        "name": "paan shot",
+        "cups": {
+          "Standard": {
+            "materials": [
+              {
+                "name": "Blue Riband Gin",
+                "volume": 30
+              },
+              {
+                "name": "Lime Juice",
+                "volume": 5
+              },
+              {
+                "name": "Paan Shot Syrup",
+                "volume": 10
+              }
+            ],
+            "total_volume": 45,
+            "base_multiplier": 1
+          },
+          "2 X": {
+            "materials": [
+              {
+                "name": "Blue Riband Gin",
+                "volume": 60
+              },
+              {
+                "name": "Lime Juice",
+                "volume": 10
+              },
+              {
+                "name": "Paan Shot Syrup",
+                "volume": 20
+              }
+            ],
+            "total_volume": 90,
+            "base_multiplier": 2
+          }
+        }
+      }
+    ]
+  },
+  {
+    "meta": {
+      "store_ids": [
+        17,
+        18,
+        42
+      ],
+      "devicenums": [
+        "1710743333",
+        "1710651791"
+      ]
+    },
+    "pos_items": [
+      {
+        "name": "KUCH BHI",
+        "menu_item_id": 179042,
+        "plu_code": "DIGI-83801"
+      }
+    ],
+    "machine_items": [
+      {
+        "name": "kuch bhi",
+        "cups": {
+          "2 X": {
+            "materials": [
+              {
+                "name": "Warehouse Tequila",
+                "volume": 60
+              },
+              {
+                "name": "Lime Juice",
+                "volume": 10
+              },
+              {
+                "name": "Sugar Syrup",
+                "volume": 10
+              }
+            ],
+            "total_volume": 80,
+            "base_multiplier": 2
+          },
+          "Standard": {
+            "materials": [
+              {
+                "name": "Warehouse Tequila",
+                "volume": 30
+              },
+              {
+                "name": "Lime Juice",
+                "volume": 5
+              },
+              {
+                "name": "Sugar Syrup",
+                "volume": 5
+              }
+            ],
+            "total_volume": 40,
+            "base_multiplier": 1
+          }
+        }
+      }
+    ]
+  },
+  {
+    "meta": {
+      "store_ids": [
+        17,
+        18,
+        42
+      ],
+      "devicenums": [
+        "1710743333",
+        "1710651791"
+      ]
+    },
+    "pos_items": [
+      {
+        "name": "BUBBLE GUM DROP",
+        "menu_item_id": 179044,
+        "plu_code": "DIGI-83803"
+      }
+    ],
+    "machine_items": [
+      {
+        "name": "bubble gum drop",
+        "cups": {
+          "2 X": {
+            "materials": [
+              {
+                "name": "Oxyzen Vodka",
+                "volume": 60
+              },
+              {
+                "name": "Lime Juice",
+                "volume": 10
+              },
+              {
+                "name": "Bubble Gum Syrup",
+                "volume": 20
+              }
+            ],
+            "total_volume": 90,
+            "base_multiplier": 2
+          },
+          "Standard": {
+            "materials": [
+              {
+                "name": "Oxyzen Vodka",
+                "volume": 30
+              },
+              {
+                "name": "Lime Juice",
+                "volume": 5
+              },
+              {
+                "name": "Bubble Gum Syrup",
+                "volume": 10
+              }
+            ],
+            "total_volume": 45,
+            "base_multiplier": 1
+          }
+        }
+      }
+    ]
+  },
+  {
+    "meta": {
+      "store_ids": [
+        17,
+        18,
+        42
+      ],
+      "devicenums": [
+        "1710743333",
+        "1710651791"
+      ]
+    },
+    "pos_items": [
+      {
+        "name": "WATERMELON BASIL FIZZ",
+        "menu_item_id": 179003,
+        "plu_code": "DIGI-83759"
+      }
+    ],
+    "machine_items": [
+      {
+        "name": "watermelon basil fizz",
+        "cups": {
+          "2 X": {
+            "materials": [
+              {
+                "name": "Watermelon Juice",
+                "volume": 240
+              },
+              {
+                "name": "Lime Juice",
+                "volume": 40
+              },
+              {
+                "name": "Sugar Syrup",
+                "volume": 30
+              },
+              {
+                "name": "Watermelon Syrup",
+                "volume": 40
+              }
+            ],
+            "total_volume": 350,
+            "base_multiplier": 2
+          },
+          "Standard": {
+            "materials": [
+              {
+                "name": "Watermelon Juice",
+                "volume": 120
+              },
+              {
+                "name": "Lime Juice",
+                "volume": 20
+              },
+              {
+                "name": "Sugar Syrup",
+                "volume": 15
+              },
+              {
+                "name": "Watermelon Syrup",
+                "volume": 20
+              }
+            ],
+            "total_volume": 175,
+            "base_multiplier": 1
+          }
+        }
+      }
+    ]
+  },
+  {
+    "meta": {
+      "store_ids": [
+        17,
+        18,
+        42
+      ],
+      "devicenums": [
+        "1710743333",
+        "1710651791"
+      ]
+    },
+    "pos_items": [
+      {
+        "name": "Mango Berry Colada",
+        "menu_item_id": 3207,
+        "plu_code": "JB041"
+      }
+    ],
+    "machine_items": [
+      {
+        "name": "mango berry colada",
+        "cups": {
+          "Standard": {
+            "materials": [
+              {
+                "name": "Mango Juice",
+                "volume": 120
+              },
+              {
+                "name": "Amul Fresh Cream",
+                "volume": 60
+              },
+              {
+                "name": "Blueberry Syrup",
+                "volume": 30
+              }
+            ],
+            "total_volume": 210,
+            "base_multiplier": 1
+          },
+          "2 X": {
+            "materials": [
+              {
+                "name": "Mango Juice",
+                "volume": 240
+              },
+              {
+                "name": "Amul Fresh Cream",
+                "volume": 120
+              },
+              {
+                "name": "Blueberry Syrup",
+                "volume": 60
+              }
+            ],
+            "total_volume": 420,
+            "base_multiplier": 2
+          }
+        }
+      }
+    ]
+  },
+  {
+    "meta": {
+      "store_ids": [
+        17,
+        18,
+        42
+      ],
+      "devicenums": [
+        "1710743333",
+        "1710651791"
+      ]
+    },
+    "pos_items": [
+      {
+        "name": "GUAVA CHILLI",
+        "menu_item_id": 179004,
+        "plu_code": "DIGI-83760"
+      }
+    ],
+    "machine_items": [
+      {
+        "name": "guava chilli",
+        "cups": {
+          "Standard": {
+            "materials": [
+              {
+                "name": "Guava Juice",
+                "volume": 150
+              },
+              {
+                "name": "Lime Juice",
+                "volume": 25
+              },
+              {
+                "name": "Sugar Syrup",
+                "volume": 30
+              },
+              {
+                "name": "(hm Chilli Syrup)",
+                "volume": 25
+              }
+            ],
+            "total_volume": 230,
+            "base_multiplier": 1
+          },
+          "2 X": {
+            "materials": [
+              {
+                "name": "Guava Juice",
+                "volume": 300
+              },
+              {
+                "name": "Lime Juice",
+                "volume": 50
+              },
+              {
+                "name": "Sugar Syrup",
+                "volume": 60
+              },
+              {
+                "name": "(hm Chilli Syrup)",
+                "volume": 50
+              }
+            ],
+            "total_volume": 460,
+            "base_multiplier": 2
+          }
+        }
+      }
+    ]
+  },
+  {
+    "meta": {
+      "store_ids": [
+        17,
+        18,
+        42
+      ],
+      "devicenums": [
+        "1710743333",
+        "1710651791"
+      ]
+    },
+    "pos_items": [
+      {
+        "name": "Virgin Mojito",
+        "menu_item_id": 3307,
+        "plu_code": "JB042"
+      }
+    ],
+    "machine_items": [
+      {
+        "name": "virgin mojito",
+        "cups": {
+          "Standard": {
+            "materials": [
+              {
+                "name": "Lime Juice",
+                "volume": 45
+              },
+              {
+                "name": "Sugar Syrup",
+                "volume": 60
+              }
+            ],
+            "total_volume": 105,
+            "base_multiplier": 1
+          },
+          "2 X": {
+            "materials": [
+              {
+                "name": "Lime Juice",
+                "volume": 90
+              },
+              {
+                "name": "Sugar Syrup",
+                "volume": 120
+              }
+            ],
+            "total_volume": 210,
+            "base_multiplier": 2
+          }
+        }
+      }
+    ]
+  },
+  {
+    "meta": {
+      "store_ids": [
+        17,
+        18,
+        42
+      ],
+      "devicenums": [
+        "1710743333",
+        "1710651791"
+      ]
+    },
+    "pos_items": [
+      {
+        "name": "Virgin Colada",
+        "menu_item_id": 3305,
+        "plu_code": "JB044"
+      }
+    ],
+    "machine_items": [
+      {
+        "name": "virgin colada",
+        "cups": {
+          "Standard": {
+            "materials": [
+              {
+                "name": "Pineapple Juice",
+                "volume": 150
+              },
+              {
+                "name": "Amul Fresh Cream",
+                "volume": 60
+              },
+              {
+                "name": "Sugar Syrup",
+                "volume": 15
+              },
+              {
+                "name": "Coconut Syrup",
+                "volume": 30
+              }
+            ],
+            "total_volume": 255,
+            "base_multiplier": 1
+          },
+          "2 X": {
+            "materials": [
+              {
+                "name": "Pineapple Juice",
+                "volume": 300
+              },
+              {
+                "name": "Amul Fresh Cream",
+                "volume": 120
+              },
+              {
+                "name": "Sugar Syrup",
+                "volume": 30
+              },
+              {
+                "name": "Coconut Syrup",
+                "volume": 60
+              }
+            ],
+            "total_volume": 510,
+            "base_multiplier": 2
+          }
+        }
+      }
+    ]
+  },
+  {
+    "meta": {
+      "store_ids": [
+        17,
+        18,
+        42
+      ],
+      "devicenums": [
+        "1710743333",
+        "1710651791"
+      ]
+    },
+    "pos_items": [
+      {
+        "name": "BERRY BLAST",
+        "menu_item_id": 179020,
+        "plu_code": "DIGI-83778"
+      }
+    ],
+    "machine_items": [
+      {
+        "name": "berry blast",
+        "cups": {
+          "Standard": {
+            "materials": [
+              {
+                "name": "Lime Juice",
+                "volume": 20
+              },
+              {
+                "name": "Sugar Syrup",
+                "volume": 25
+              },
+              {
+                "name": "Blueberry Syrup",
+                "volume": 60
+              }
+            ],
+            "total_volume": 105,
+            "base_multiplier": 1
+          },
+          "2 X": {
+            "materials": [
+              {
+                "name": "Lime Juice",
+                "volume": 40
+              },
+              {
+                "name": "Sugar Syrup",
+                "volume": 50
+              },
+              {
+                "name": "Blueberry Syrup",
+                "volume": 120
+              }
+            ],
+            "total_volume": 210,
+            "base_multiplier": 2
+          }
+        }
+      }
+    ]
+  },
+  {
+    "meta": {
+      "store_ids": [
+        17,
+        18,
+        42
+      ],
+      "devicenums": [
+        "1710743333",
+        "1710651791"
+      ]
+    },
+    "pos_items": [
+      {
+        "name": "WATERMELON MANGO PUNCH",
+        "menu_item_id": 179023,
+        "plu_code": "DIGI-83781"
+      }
+    ],
+    "machine_items": [
+      {
+        "name": "watermelon mango punch",
+        "cups": {
+          "Standard": {
+            "materials": [
+              {
+                "name": "Mango Juice",
+                "volume": 120
+              },
+              {
+                "name": "Watermelon Juice",
+                "volume": 90
+              },
+              {
+                "name": "Lime Juice",
+                "volume": 25
+              },
+              {
+                "name": "Sugar Syrup",
+                "volume": 25
+              },
+              {
+                "name": "Watermelon Syrup",
+                "volume": 10
+              }
+            ],
+            "total_volume": 270,
+            "base_multiplier": 1
+          },
+          "2 X": {
+            "materials": [
+              {
+                "name": "Mango Juice",
+                "volume": 240
+              },
+              {
+                "name": "Watermelon Juice",
+                "volume": 180
+              },
+              {
+                "name": "Lime Juice",
+                "volume": 50
+              },
+              {
+                "name": "Sugar Syrup",
+                "volume": 50
+              },
+              {
+                "name": "Watermelon Syrup",
+                "volume": 20
+              }
+            ],
+            "total_volume": 540,
+            "base_multiplier": 2
+          }
+        }
+      }
+    ]
+  },
+  {
+    "meta": {
+      "store_ids": [
+        17,
+        18,
+        42
+      ],
+      "devicenums": [
+        "1710743333",
+        "1710651791"
+      ]
+    },
+    "pos_items": [
+      {
+        "name": "BARMAN SPECIAL SMOKEY",
+        "menu_item_id": 179026,
+        "plu_code": "DIGI-83785"
+      },
+      {
+        "name": "BARMAN SPECIAL MOCKTAIL S",
+        "menu_item_id": 179025,
+        "plu_code": "DIGI-83783"
+      }
+    ],
+    "machine_items": [
+      {
+        "name": "barman special",
+        "cups": {
+          "Lychee": {
+            "materials": [
+              {
+                "name": "Lychee Juice",
+                "volume": 40
+              },
+              {
+                "name": "Lime Juice",
+                "volume": 30
+              },
+              {
+                "name": "Elderflower Syrup",
+                "volume": 20
+              }
+            ],
+            "total_volume": 90,
+            "base_multiplier": 1
+          },
+          "Cranberry": {
+            "materials": [
+              {
+                "name": "Cranberry Juice",
+                "volume": 60
+              },
+              {
+                "name": "Pineapple Juice",
+                "volume": 20
+              },
+              {
+                "name": "Lime Juice",
+                "volume": 20
+              },
+              {
+                "name": "Coconut Syrup",
+                "volume": 10
+              }
+            ],
+            "total_volume": 110,
+            "base_multiplier": 1
+          },
+          "Coriander": {
+            "materials": [
+              {
+                "name": "Pineapple Juice",
+                "volume": 30
+              },
+              {
+                "name": "Lime Juice",
+                "volume": 30
+              },
+              {
+                "name": "(hm Picante Cordial )",
+                "volume": 20
+              }
+            ],
+            "total_volume": 80,
+            "base_multiplier": 1
+          },
+          "Pomegranate": {
+            "materials": [
+              {
+                "name": "Pomegranate Juice",
+                "volume": 60
+              },
+              {
+                "name": "Lime Juice",
+                "volume": 15
+              },
+              {
+                "name": "Sugar Syrup",
+                "volume": 10
+              },
+              {
+                "name": "Paan Shot Syrup",
+                "volume": 10
+              }
+            ],
+            "total_volume": 95,
+            "base_multiplier": 1
+          },
+          "2 X": {
+            "materials": [
+              {
+                "name": "Cranberry Juice",
+                "volume": 60
+              },
+              {
+                "name": "Orange Juice",
+                "volume": 180
+              },
+              {
+                "name": "Lime Juice",
+                "volume": 40
+              },
+              {
+                "name": "Sugar Syrup",
+                "volume": 25
+              },
+              {
+                "name": "Watermelon Syrup",
+                "volume": 30
+              }
+            ],
+            "total_volume": 335,
+            "base_multiplier": 2
+          },
+          "Standard": {
+            "materials": [
+              {
+                "name": "Cranberry Juice",
+                "volume": 30
+              },
+              {
+                "name": "Orange Juice",
+                "volume": 90
+              },
+              {
+                "name": "Lime Juice",
+                "volume": 20
+              },
+              {
+                "name": "Sugar Syrup",
+                "volume": 25
+              },
+              {
+                "name": "Watermelon Syrup",
+                "volume": 15
+              }
+            ],
+            "total_volume": 180,
+            "base_multiplier": 1
+          }
+        }
+      }
+    ]
+  },
+  {
+    "meta": {
+      "store_ids": [
+        17,
+        18,
+        42
+      ],
+      "devicenums": [
+        "1710743333",
+        "1710651791"
+      ]
+    },
+    "pos_items": [
+      {
+        "name": "Fresh Lime",
+        "menu_item_id": 3157,
+        "plu_code": "JB048"
+      }
+    ],
+    "machine_items": [
+      {
+        "name": "fresh lime juice",
+        "cups": {
+          "Standard": {
+            "materials": [
+              {
+                "name": "Lime Juice",
+                "volume": 60
+              }
+            ],
+            "total_volume": 60,
+            "base_multiplier": 1
+          },
+          "2 X": {
+            "materials": [
+              {
+                "name": "Lime Juice",
+                "volume": 120
+              }
+            ],
+            "total_volume": 120,
+            "base_multiplier": 2
+          }
+        }
+      },
+      {
+        "name": "fresh lime soda ( sweet )",
+        "cups": {
+          "2X": {
+            "materials": [
+              {
+                "name": "Lime Juice",
+                "volume": 120
+              },
+              {
+                "name": "Sugar Syrup",
+                "volume": 80
+              }
+            ],
+            "total_volume": 200,
+            "base_multiplier": 2
+          },
+          "Standard": {
+            "materials": [
+              {
+                "name": "Lime Juice",
+                "volume": 60
+              },
+              {
+                "name": "Sugar Syrup",
+                "volume": 40
+              }
+            ],
+            "total_volume": 100,
+            "base_multiplier": 1
+          }
+        }
+      },
+      {
+        "name": "fresh lime soda ( sweet & salt)",
+        "cups": {
+          "2X": {
+            "materials": [
+              {
+                "name": "Lime Juice",
+                "volume": 120
+              },
+              {
+                "name": "Sugar Syrup",
+                "volume": 80
+              }
+            ],
+            "total_volume": 200,
+            "base_multiplier": 2
+          },
+          "Standard": {
+            "materials": [
+              {
+                "name": "Lime Juice",
+                "volume": 60
+              },
+              {
+                "name": "Sugar Syrup",
+                "volume": 40
+              }
+            ],
+            "total_volume": 100,
+            "base_multiplier": 1
+          }
+        }
+      }
+    ]
+  },
+  {
+    "meta": {
+      "store_ids": [
+        18
+      ],
+      "devicenums": [
+        "1710743333",
+        "1710651791"
+      ]
+    },
+    "pos_items": [
+      {
+        "name": "Blue Riband",
+        "menu_item_id": 3097,
+        "plu_code": "JB761"
+      }
+    ],
+    "machine_items": [
+      {
+        "name": "blue riband gin",
+        "cups": {
+          "Standard": {
+            "materials": [
+              {
+                "name": "Blue Riband Gin",
+                "volume": 30
+              }
+            ],
+            "total_volume": 30,
+            "base_multiplier": 1
+          },
+          "Large": {
+            "materials": [
+              {
+                "name": "Blue Riband Gin",
+                "volume": 60
+              }
+            ],
+            "total_volume": 60,
+            "base_multiplier": 2
+          }
+        }
+      }
+    ]
+  },
+  {
+    "meta": {
+      "store_ids": [
+        18
+      ],
+      "devicenums": [
+        "1710743333",
+        "1710651791"
+      ]
+    },
+    "pos_items": [
+      {
+        "name": "Old Monk White Rum",
+        "menu_item_id": 3325,
+        "plu_code": "JB256"
+      }
+    ],
+    "machine_items": [
+      {
+        "name": "old monk white rum",
+        "cups": {
+          "Standard": {
+            "materials": [
+              {
+                "name": "Old Monk White Rum",
+                "volume": 30
+              }
+            ],
+            "total_volume": 30,
+            "base_multiplier": 1
+          },
+          "Large": {
+            "materials": [
+              {
+                "name": "Old Monk White Rum",
+                "volume": 60
+              }
+            ],
+            "total_volume": 60,
+            "base_multiplier": 2
+          }
+        }
+      }
+    ]
+  },
+  {
+    "meta": {
+      "store_ids": [
+        18
+      ],
+      "devicenums": [
+        "1710743333",
+        "1710651791"
+      ]
+    },
+    "pos_items": [
+      {
+        "name": "Oxyzen Vodka",
+        "menu_item_id": 33658,
+        "plu_code": "JB5009"
+      }
+    ],
+    "machine_items": [
+      {
+        "name": "oxyzen vodka",
+        "cups": {
+          "Standard": {
+            "materials": [
+              {
+                "name": "Oxyzen Vodka",
+                "volume": 30
+              }
+            ],
+            "total_volume": 30,
+            "base_multiplier": 1
+          },
+          "Large": {
+            "materials": [
+              {
+                "name": "Oxyzen Vodka",
+                "volume": 60
+              }
+            ],
+            "total_volume": 60,
+            "base_multiplier": 2
+          }
+        }
+      }
+    ]
+  },
+  {
+    "meta": {
+      "store_ids": [
+        18
+      ],
+      "devicenums": [
+        "1710743333",
+        "1710651791"
+      ]
+    },
+    "pos_items": [
+      {
+        "name": "IMPERIAL BLUE",
+        "menu_item_id": 180410,
+        "plu_code": "DIGI-85783"
+      }
+    ],
+    "machine_items": [
+      {
+        "name": "imperial blue",
+        "cups": {
+          "Standard": {
+            "materials": [
+              {
+                "name": "Imperial Blue",
+                "volume": 30
+              }
+            ],
+            "total_volume": 30,
+            "base_multiplier": 1
+          },
+          "Large": {
+            "materials": [
+              {
+                "name": "Imperial Blue",
+                "volume": 60
+              }
+            ],
+            "total_volume": 60,
+            "base_multiplier": 2
+          }
+        }
+      }
+    ]
+  },
+  {
+    "meta": {
+      "store_ids": [
+        18
+      ],
+      "devicenums": [
+        "1710743333",
+        "1710651791"
+      ]
+    },
+    "pos_items": [
+      {
+        "name": "Warehouse",
+        "menu_item_id": 3308,
+        "plu_code": "JB826"
+      }
+    ],
+    "machine_items": [
+      {
+        "name": "warehouse tequila",
+        "cups": {
+          "Standard": {
+            "materials": [
+              {
+                "name": "Warehouse Tequila",
+                "volume": 30
+              }
+            ],
+            "total_volume": 30,
+            "base_multiplier": 1
+          },
+          "Large": {
+            "materials": [
+              {
+                "name": "Warehouse Tequila",
+                "volume": 60
+              }
+            ],
+            "total_volume": 60,
+            "base_multiplier": 2
+          }
+        }
+      }
+    ]
+  }
+]
