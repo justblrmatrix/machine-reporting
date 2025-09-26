@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4">Variance Report – 33 Nozzle</h2>
+
+    <!-- Form -->
+    <form method="get" class="row g-3 mb-4">
+        <div class="col-md-4">
+            <label for="store_id" class="form-label">Store</label>
+            <select name="store_id" id="store_id" class="form-select" required>
+                <option value="">-- Select Store --</option>
+                {% for s in stores %}
+                <option value="{{ s }}" {% if selected_store == s|string %}selected{% endif %}>
+                    {{ s }}
+                </option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-md-4">
+            <label for="date" class="form-label">Date</label>
+            <input type="date" name="date" id="date" class="form-control"
+                   value="{{ selected_date or '' }}" required>
+        </div>
+        <div class="col-md-4 d-flex align-items-end">
+            <button type="submit" class="btn btn-primary w-100">Generate Report</button>
+        </div>
+    </form>
+
+    {% if results %}
+    <!-- Table -->
+    <div class="table-responsive">
+        <table class="table table-striped table-bordered align-middle">
+            <thead class="table-dark">
+                <tr>
+                    <th>Ingredient</th>
+                    <th>Opening</th>
+                    <th>Replenishment</th>
+                    <th>POS Sales</th>
+                    <th>Machine Sales</th>
+                    <th>Expected Closing</th>
+                    <th>Physical Closing</th>
+                    <th>Variance</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in results %}
+                <tr>
+                    <td>{{ row[0] }}</td>
+                    <td>{{ "%.2f"|format(row[1]) }}</td>
+                    <td>{{ "%.2f"|format(row[2]) }}</td>
+                    <td>{{ "%.2f"|format(row[3]) }}</td>
+                    <td>{{ "%.2f"|format(row[4]) }}</td>
+                    <td>{{ "%.2f"|format(row[5]) }}</td>
+                    <td>{{ "%.2f"|format(row[6]) }}</td>
+                    <td class="{% if row[7] != 0 %}fw-bold text-danger{% else %}text-success{% endif %}">
+                        {{ "%.2f"|format(row[7]) }}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% elif selected_date and selected_store %}
+    <div class="alert alert-warning">⚠️ No data found for this store and date.</div>
+    {% endif %}
+</div>
+{% endblock %}
