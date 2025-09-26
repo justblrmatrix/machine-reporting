@@ -2,20 +2,17 @@
 {% block content %}
 <h1>Mapping Manager</h1>
 
+<h2>Unmapped Machine Products</h2>
 <table class="table">
   <thead>
     <tr><th>Machine Product</th><th>POS Code</th><th>Stores</th><th>Action</th></tr>
   </thead>
   <tbody>
-    {% for m in machine_products %}
+    {% for m in unmapped_machines %}
     <tr>
       <td>{{ m.machine_name }}</td>
       <td>
-        <select name="plu_code">
-          {% for code in pos_codes %}
-          <option value="{{ code }}">{{ code }}</option>
-          {% endfor %}
-        </select>
+        <input type="text" name="plu_code" placeholder="Enter POS Code">
       </td>
       <td>
         <select name="store_ids" multiple size="3">
@@ -32,7 +29,7 @@
           <input type="hidden" name="pos_code" value="">
           <input type="hidden" name="store_ids" value="">
           <button type="submit"
-            onclick="this.form.pos_code.value=this.closest('tr').querySelector('select[name=plu_code]').value;
+            onclick="this.form.pos_code.value=this.closest('tr').querySelector('input[name=plu_code]').value;
                      this.form.store_ids.value=Array.from(this.closest('tr').querySelector('select[name=store_ids]').selectedOptions).map(o=>o.value).join(',')">
             Save
           </button>
@@ -40,7 +37,25 @@
       </td>
     </tr>
     {% else %}
-    <tr><td colspan="4">All machine products mapped 🎉</td></tr>
+    <tr><td colspan="4">No unmapped machine products 🎉</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<h2>Already Mapped</h2>
+<table class="table">
+  <thead>
+    <tr><th>Machine Product</th><th>POS Code</th><th>Stores</th></tr>
+  </thead>
+  <tbody>
+    {% for row in mapped %}
+    <tr>
+      <td>{{ row.machine_name }}</td>
+      <td>{{ row.plu_code }}</td>
+      <td>{{ row.stores | join(', ') if row.stores else '-' }}</td>
+    </tr>
+    {% else %}
+    <tr><td colspan="3">No mappings yet</td></tr>
     {% endfor %}
   </tbody>
 </table>

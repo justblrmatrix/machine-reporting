@@ -1,4 +1,57 @@
 {% extends "base.html" %}
 {% block content %}
-<h1>Variance Report (coming soon)</h1>
+<h1>Variance Report</h1>
+
+<form method="get">
+  <label>Store</label>
+  <select name="store_id" required>
+    <option value="">--Choose--</option>
+    {% for s in stores %}
+    <option value="{{ s }}" {% if store_id == s|string %}selected{% endif %}>{{ s }}</option>
+    {% endfor %}
+  </select>
+
+  <label>Date</label>
+  <input type="date" name="date" value="{{ date or '' }}" required>
+  <button type="submit">Show</button>
+</form>
+
+{% if rows %}
+<table class="table">
+  <thead>
+    <tr>
+      <th>PLU</th>
+      <th>Opening</th>
+      <th>Replenishment</th>
+      <th>POS Sales</th>
+      <th>Machine Sales</th>
+      <th>Expected Closing</th>
+      <th>Physical Closing</th>
+      <th>Variance</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for r in rows %}
+    <tr>
+      <td>{{ r.plu_code }}</td>
+      <td>{{ r.opening }}</td>
+      <td>{{ r.replenishment }}</td>
+      <td>{{ r.pos_sales }}</td>
+      <td>{{ r.machine_sales }}</td>
+      <td>{{ r.expected_closing }}</td>
+      <td>
+        <form method="post" action="{{ url_for('stock') }}">
+          <input type="hidden" name="store_id" value="{{ store_id }}">
+          <input type="hidden" name="date" value="{{ date }}">
+          <input type="hidden" name="plu_code" value="{{ r.plu_code }}">
+          <input type="number" step="0.01" name="closing" value="{{ r.physical_closing or '' }}">
+          <button type="submit">Save</button>
+        </form>
+      </td>
+      <td>{{ r.variance }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endif %}
 {% endblock %}
