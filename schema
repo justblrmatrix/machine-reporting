@@ -1,0 +1,47 @@
+-- WARNING: This schema is for context only and is not meant to be run.
+-- Table order and constraints may not be valid for execution.
+
+CREATE TABLE public.daily_stock (
+  id bigint NOT NULL DEFAULT nextval('daily_stock_id_seq'::regclass),
+  store_id integer,
+  date date NOT NULL,
+  ingredient_name character varying NOT NULL,
+  replenishment numeric DEFAULT 0,
+  closing numeric DEFAULT 0,
+  note text,
+  created_at timestamp with time zone DEFAULT now(),
+  CONSTRAINT daily_stock_pkey PRIMARY KEY (id)
+);
+CREATE TABLE public.nozzle_mapping (
+  id bigint NOT NULL DEFAULT nextval('nozzle_mapping_id_seq'::regclass),
+  store_id integer NOT NULL,
+  plu_code character varying,
+  machine_name character varying NOT NULL,
+  ingredient_name character varying NOT NULL,
+  volume numeric NOT NULL,
+  active boolean DEFAULT true,
+  created_at timestamp with time zone DEFAULT now(),
+  CONSTRAINT nozzle_mapping_pkey PRIMARY KEY (id)
+);
+CREATE TABLE public.sales_transactions (
+  id bigint NOT NULL DEFAULT nextval('sales_transactions_id_seq'::regclass),
+  source character varying NOT NULL,
+  store_id integer,
+  device_id character varying,
+  date date NOT NULL,
+  time time without time zone,
+  transaction_id character varying,
+  ticket_no character varying,
+  record_type character varying DEFAULT 'transaction'::character varying,
+  plu_code character varying,
+  product_id character varying,
+  product_name character varying,
+  machine_name character varying,
+  quantity numeric,
+  unit character varying,
+  amount numeric,
+  currency character varying,
+  status character varying,
+  created_at timestamp without time zone DEFAULT now(),
+  CONSTRAINT sales_transactions_pkey PRIMARY KEY (id)
+);

@@ -297,12 +297,19 @@ def normalize_name(raw):
 
 @app.route("/variance/nozzle", methods=["GET", "POST"])
 def variance_nozzle():
+    from psycopg2.extras import RealDictCursor
     conn = get_conn()
-    cur = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+    cur = conn.cursor(cursor_factory=RealDictCursor)
 
     selected_date = request.form.get("date") or date.today().strftime("%Y-%m-%d")
     d = datetime.strptime(selected_date, "%Y-%m-%d").date()
     d_prev = d - timedelta(days=1)
+
+    def normalize_name(name: str) -> str:
+        """Normalize machine_name to alphanumeric lowercase key for matching."""
+        if not name:
+            return ""
+        return re.sub(r"[^a-z0-9]+", "", name.lower())
 
     # load mappings into memory
     cur.execute("""
@@ -330,9 +337,11 @@ def variance_nozzle():
         key = normalize_name(row["machine_name"])
         if key in mapping_dict:
             for ing, _ in mapping_dict[key]:
+                # NOTE: use quantity directly, not multiplied by volume
                 machine_consumption[ing] = machine_consumption.get(ing, 0) + (row["quantity"] or 0)
 
-    # load POS sales (plu_code mapping)
+
+    # load POS sales (needs conversion: qty × volume)
     cur.execute("""
         SELECT st.plu_code, st.quantity, nm.ingredient_name, nm.volume
         FROM sales_transactions st
@@ -345,7 +354,9 @@ def variance_nozzle():
     pos_consumption = {}
     for row in pos_rows:
         ing = row["ingredient_name"]
-        pos_consumption[ing] = pos_consumption.get(ing, 0) + (row["quantity"] or 0) * row["volume"]
+        qty = float(row["quantity"] or 0)
+        vol = float(row["volume"] or 0)
+        pos_consumption[ing] = pos_consumption.get(ing, 0) + qty * vol
 
     # load stock
     cur.execute("""
@@ -373,13 +384,13 @@ def variance_nozzle():
         variance = pos_sales - machine_sales
         rows.append({
             "ingredient_name": ing,
-            "opening": opening,
-            "replenishment": replenishment,
-            "pos_sales": pos_sales,
-            "machine_sales": machine_sales,
-            "expected_closing": expected_closing,
-            "physical_closing": closing,
-            "variance": variance
+            "opening": round(opening, 2),
+            "replenishment": round(replenishment, 2),
+            "pos_sales": round(pos_sales, 2),
+            "machine_sales": round(machine_sales, 2),
+            "expected_closing": round(expected_closing, 2),
+            "physical_closing": round(closing, 2),
+            "variance": round(variance, 2)
         })
 
     cur.close()
