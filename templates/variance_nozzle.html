@@ -13,46 +13,66 @@
     <div class="col-auto">
       <button type="submit" class="btn btn-primary">Show</button>
     </div>
+    <div class="col-auto">
+      <a href="{{ url_for('variance_nozzle', export='csv', date=selected_date) }}" class="btn btn-secondary">
+        Export CSV
+      </a>
+    </div>
   </form>
 
   <table class="table table-bordered table-striped table-sm">
-  <thead class="table-dark">
-    <tr>
-      <th>Ingredient</th>
-      <th class="text-end">Opening (ml)</th>
-      <th class="text-end">Replenishment (ml)</th>
-      <th class="text-end">POS Sales (units)</th>
-      <th class="text-end">Machine Sales (units)</th>
-      <th class="text-end">Expected Closing (ml)</th>
-      <th class="text-end">Physical Closing (ml)</th>
-      <th class="text-end">Variance (units)</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for r in rows %}
-    <tr>
-      <td>{{ r.ingredient_name }}</td>
-      <td class="text-end">{{ "%.2f"|format(r.opening or 0) }}</td>
-      <td class="text-end">{{ "%.2f"|format(r.replenishment or 0) }}</td>
-      <td class="text-end">{{ "%.2f"|format(r.pos_sales or 0) }}</td>
-      <td class="text-end">{{ "%.2f"|format(r.machine_sales or 0) }}</td>
-      <td class="text-end">{{ "%.2f"|format(r.expected_closing or 0) }}</td>
-      <td class="text-end">{{ "%.2f"|format(r.physical_closing or 0) }}</td>
-      <td class="text-end 
-        {% if r.variance is not none %}
-            {% if r.variance >= 0 %}
-                table-success
-            {% else %}
-                table-danger
-            {% endif %}
-        {% endif %}
-    ">
-      {{ "%.2f"|format(r.variance or 0) }}
-    </td>
-    </tr>
-    {% endfor %}
-  </tbody>
-</table>
-
+    <thead class="table-dark">
+      <tr>
+        <th>Ingredient</th>
+        <th class="text-end">Opening (ml)</th>
+        <th class="text-end">Replenishment (ml)</th>
+        <th class="text-end">POS Sales (units)</th>
+        <th class="text-end">Machine Sales (units)</th>
+        <th class="text-end">Expected Closing (ml)</th>
+        <th class="text-end">Physical Closing (ml)</th>
+        <th class="text-end">Variance (units)</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for r in rows %}
+      <tr>
+        <td>
+          {{ r.ingredient_name }}
+          {% if r.details %}
+            <button class="btn btn-sm btn-link p-0 ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#details-{{ loop.index }}">
+              ▶
+            </button>
+            <div class="collapse" id="details-{{ loop.index }}">
+              <ul class="small text-muted">
+                {% for detail in r.details %}
+                  <li>{{ detail }}</li>
+                {% endfor %}
+              </ul>
+            </div>
+          {% endif %}
+        </td>
+        <td class="text-end">{{ "%.2f"|format(r.opening or 0) }}</td>
+        <td class="text-end">{{ "%.2f"|format(r.replenishment or 0) }}</td>
+        <td class="text-end">{{ "%.2f"|format(r.pos_sales or 0) }}</td>
+        <td class="text-end">{{ "%.2f"|format(r.machine_sales or 0) }}</td>
+        <td class="text-end">{{ "%.2f"|format(r.expected_closing or 0) }}</td>
+        <td class="text-end">{{ "%.2f"|format(r.physical_closing or 0) }}</td>
+        <td class="text-end
+          {% if r.variance is not none %}
+              {% if r.variance|abs < 0.25 %}
+                  table-success
+              {% elif r.variance|abs < 1 %}
+                  table-warning
+              {% else %}
+                  table-danger
+              {% endif %}
+          {% endif %}
+        ">
+          {{ "%.2f"|format(r.variance or 0) }}
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
 </div>
 {% endblock %}

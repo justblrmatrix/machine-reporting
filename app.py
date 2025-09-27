@@ -317,46 +317,81 @@ def normalize_name(raw):
 @app.route("/variance/nozzle", methods=["GET", "POST"])
 def variance_nozzle():
     from psycopg2.extras import RealDictCursor
+    from statistics import mode
     import re
     from datetime import datetime, date, timedelta
+    from flask import Response
+    import csv
+    from io import StringIO
 
     conn = get_conn()
     cur = conn.cursor(cursor_factory=RealDictCursor)
 
-    # --- Date selection ---
-    selected_date = request.form.get("date") or date.today().strftime("%Y-%m-%d")
+    # --- Inputs ---
+    selected_date = request.form.get("date") or request.args.get("date") or date.today().strftime("%Y-%m-%d")
     d = datetime.strptime(selected_date, "%Y-%m-%d").date()
     d_prev = d - timedelta(days=1)
 
-    def normalize_name(name: str) -> str:
-        if not name:
+    def normalize_name(s: str) -> str:
+        if not s:
             return ""
-        return re.sub(r"[^a-z0-9]+", "", name.lower())
+        # collapse whitespace, remove non-alphanumerics, lowercase
+        return re.sub(r"[^a-z0-9]+", "", " ".join(s.split()).lower())
 
-    # --- Load nozzle mapping ---
+    # --- Load mappings ---
     cur.execute("""
-        SELECT id, store_id, plu_code, machine_name, ingredient_name, volume
+        SELECT store_id, plu_code, machine_name, ingredient_name, volume
         FROM nozzle_mapping
         WHERE active = true
     """)
-    mapping_rows = cur.fetchall()
+    nm = cur.fetchall()
 
-    # machine_name → ingredient + volume + store
-    mapping_dict_machine = {}
-    for row in mapping_rows:
-        key = normalize_name(row["machine_name"])
-        mapping_dict_machine.setdefault(key, []).append(
-            (row["ingredient_name"], float(row["volume"] or 1), row["store_id"])
+    # Direct POS mapping
+    map_plu_direct = {}
+    for r in nm:
+        if r["plu_code"]:
+            map_plu_direct[(r["plu_code"], r["store_id"])] = (r["ingredient_name"], float(r["volume"] or 0))
+
+    # Machine mapping (store both exact and normalized machine names)
+    map_machine = {}
+    for r in nm:
+        raw = (r["machine_name"] or "").strip()
+        store = r["store_id"]
+        mapping_entry = (r["ingredient_name"], float(r["volume"] or 0))
+
+        key_exact = (raw, store)
+        key_norm = (normalize_name(raw), store)
+
+        for k in [key_exact, key_norm]:
+            map_machine.setdefault(k, []).append(mapping_entry)
+
+    # Ingredient unit size
+    per_ing_unit_ml = {}
+    by_ing_store = {}
+    for r in nm:
+        ing, store, vol = r["ingredient_name"], r["store_id"], float(r["volume"] or 0)
+        if vol > 0 and ing:
+            by_ing_store.setdefault((ing, store), []).append(vol)
+    for key, vols in by_ing_store.items():
+        try:
+            per_ing_unit_ml[key] = float(mode(vols))
+        except Exception:
+            per_ing_unit_ml[key] = 30.0
+
+    # --- Cocktail recipes ---
+    cur.execute("""
+        SELECT store_id, cocktail_plu, ingredient_name, volume_ml
+        FROM cocktail_recipes
+        WHERE active = true
+    """)
+    recipes_rows = cur.fetchall()
+    recipes = {}
+    for r in recipes_rows:
+        recipes.setdefault((r["cocktail_plu"], r["store_id"]), []).append(
+            (r["ingredient_name"], float(r["volume_ml"]))
         )
 
-    # (plu_code, store_id) → ingredient + volume
-    mapping_dict_plu = {}
-    for row in mapping_rows:
-        mapping_dict_plu[(row["plu_code"], row["store_id"])] = (
-            row["ingredient_name"], float(row["volume"] or 1)
-        )
-
-    # --- POS sales (restricted by mapping store_id + plu_code) ---
+    # --- POS sales ---
     cur.execute("""
         SELECT st.plu_code, st.store_id, st.quantity
         FROM sales_transactions st
@@ -364,38 +399,78 @@ def variance_nozzle():
     """, (d,))
     pos_rows = cur.fetchall()
 
-    pos_units_store = {}
-    pos_ml_store = {}
-    for row in pos_rows:
-        key = (row["plu_code"], row["store_id"])
-        if key in mapping_dict_plu:
-            ing, vol = mapping_dict_plu[key]
-            qty = float(row["quantity"] or 0)
-            ikey = (ing, row["store_id"])
-            pos_units_store[ikey] = pos_units_store.get(ikey, 0) + qty
-            pos_ml_store[ikey] = pos_ml_store.get(ikey, 0) + qty * vol
+    pos_units, pos_ml, contrib_map = {}, {}, {}
 
-    # --- Machine sales (convert ml → units correctly) ---
+    for r in pos_rows:
+        plu, store, qty = r["plu_code"], r["store_id"], float(r["quantity"] or 0)
+
+        # Pure ingredient PLU
+        direct = map_plu_direct.get((plu, store))
+        if direct:
+            ing, ml_per_unit = direct
+            if ml_per_unit > 0:
+                pos_units[ing] = pos_units.get(ing, 0.0) + qty
+                pos_ml[ing] = pos_ml.get(ing, 0.0) + qty * ml_per_unit
+            continue
+
+        # Cocktail PLU
+        rec = recipes.get((plu, store))
+        if rec:
+            for ing, ml in rec:
+                pos_ml[ing] = pos_ml.get(ing, 0.0) + qty * ml
+                unit_ml = per_ing_unit_ml.get((ing, store), 30.0)
+                units_equiv = (qty * ml / unit_ml)
+                pos_units[ing] = pos_units.get(ing, 0.0) + units_equiv
+                contrib_map.setdefault(ing, []).append(
+                    f"{qty} × {plu} → {ml*qty:.0f} ml ({units_equiv:.1f} units)"
+                )
+
+    # --- Machine sales ---
     cur.execute("""
-        SELECT machine_name, quantity
+        SELECT machine_name, quantity, store_id
         FROM sales_transactions
         WHERE source = 'Nozzle' AND date = %s
     """, (d,))
-    nozzle_rows = cur.fetchall()
+    noz_rows = cur.fetchall()
 
-    machine_units_store = {}
-    for row in nozzle_rows:
-        key = normalize_name(row["machine_name"])
-        if key in mapping_dict_machine:
-            for ing, vol, store_id in mapping_dict_machine[key]:
-                qty_ml = float(row["quantity"] or 0)
-                if vol > 0:
-                    units = qty_ml / vol  # ✅ convert ml to units
-                    machine_units_store[(ing, store_id)] = (
-                        machine_units_store.get((ing, store_id), 0) + units
-                    )
+    machine_units = {}
+    for r in noz_rows:
+        raw_name = (r["machine_name"] or "").strip()
+        store = r["store_id"]
+        qty_total_ml = float(r["quantity"] or 0)
 
-    # --- Stock (still ml, cluster-level only) ---
+        key_exact = (raw_name, store)
+        key_norm = (normalize_name(raw_name), store)
+
+        mappings = []
+        if store is None:
+            # No store_id → allow match against any store’s mapping
+            for (mname, mstore), vals in map_machine.items():
+                if mname == raw_name or mname == normalize_name(raw_name):
+                    mappings.extend(vals)
+        else:
+            if key_exact in map_machine:
+                mappings = map_machine[key_exact]
+            elif key_norm in map_machine:
+                mappings = map_machine[key_norm]
+
+        if not mappings:
+            continue
+
+        # --- FIX: Treat quantity as full drink size ---
+        base_size = sum(vol for _, vol in mappings if vol > 0)
+        if base_size <= 0:
+            continue
+
+        n_servings = qty_total_ml / base_size
+
+        for ing, vol in mappings:
+            if vol > 0:
+                used_ml = n_servings * vol
+                unit_ml = per_ing_unit_ml.get((ing, store), 30.0)
+                machine_units[ing] = machine_units.get(ing, 0.0) + (used_ml / unit_ml)
+
+    # --- Stock (all stores aggregated) ---
     cur.execute("""
         SELECT ingredient_name,
                SUM(CASE WHEN date = %s THEN closing ELSE 0 END) AS opening,
@@ -407,33 +482,21 @@ def variance_nozzle():
     """, (d_prev, d, d, d_prev, d))
     stock_rows = {r["ingredient_name"]: r for r in cur.fetchall()}
 
-    # --- Aggregate to cluster level (sum over stores) ---
-    pos_units = {}
-    pos_ml = {}
-    for (ing, _store), val in pos_units_store.items():
-        pos_units[ing] = pos_units.get(ing, 0) + val
-    for (ing, _store), val in pos_ml_store.items():
-        pos_ml[ing] = pos_ml.get(ing, 0) + val
-
-    machine_units = {}
-    for (ing, _store), val in machine_units_store.items():
-        machine_units[ing] = machine_units.get(ing, 0) + val
-
-    # --- Merge results ---
-    ingredients = set(stock_rows.keys()) | set(pos_units.keys()) | set(machine_units.keys())
+    # --- Final rows ---
+    ingredients = set(stock_rows) | set(pos_units) | set(machine_units)
     rows = []
     for ing in sorted(ingredients):
         s = stock_rows.get(ing, {})
-        opening = float(s.get("opening", 0) or 0)
-        replenishment = float(s.get("replenishment", 0) or 0)
-        closing = float(s.get("closing", 0) or 0)
+        opening = float(s.get("opening") or 0.0)
+        replenishment = float(s.get("replenishment") or 0.0)
+        closing = float(s.get("closing") or 0.0)
 
-        pos_units_val = float(pos_units.get(ing, 0))
-        pos_ml_val = float(pos_ml.get(ing, 0))
-        machine_units_val = float(machine_units.get(ing, 0))
+        pos_units_val = float(pos_units.get(ing, 0.0))
+        pos_ml_val = float(pos_ml.get(ing, 0.0))
+        machine_units_val = float(machine_units.get(ing, 0.0))
 
-        expected_closing = opening + replenishment - pos_ml_val  # ✅ only subtract POS ml
-        variance = pos_units_val - machine_units_val             # ✅ compare in units
+        expected_closing = opening + replenishment - pos_ml_val
+        variance_units = pos_units_val - machine_units_val
 
         rows.append({
             "ingredient_name": ing,
@@ -443,13 +506,27 @@ def variance_nozzle():
             "machine_sales": round(machine_units_val, 2),
             "expected_closing": round(expected_closing, 2),
             "physical_closing": round(closing, 2),
-            "variance": round(variance, 2)
+            "variance": round(variance_units, 2),
+            "details": contrib_map.get(ing, [])
         })
 
     cur.close()
     conn.close()
 
+    # --- CSV export ---
+    if request.args.get("export") == "csv":
+        si = StringIO()
+        cw = csv.DictWriter(si, fieldnames=["ingredient_name", "opening", "replenishment", "pos_sales", "machine_sales", "expected_closing", "physical_closing", "variance"])
+        cw.writeheader()
+        cw.writerows(rows)
+        return Response(
+            si.getvalue(),
+            mimetype="text/csv",
+            headers={"Content-Disposition": f"attachment;filename=variance_{selected_date}.csv"}
+        )
+
     return render_template("variance_nozzle.html", rows=rows, selected_date=selected_date)
+
 
 
 
