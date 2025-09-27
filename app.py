@@ -94,7 +94,7 @@ def mapping_nozzle():
 
     # Existing mappings
     cur.execute("""
-        SELECT store_id, plu_code, ingredient_name, volume, created_at
+        SELECT id, store_id, plu_code, ingredient_name, volume, created_at
         FROM nozzle_mapping
         ORDER BY store_id, plu_code, ingredient_name
     """)
@@ -107,6 +107,22 @@ def mapping_nozzle():
                            stores=stores,
                            unmapped=unmapped,
                            mappings=mappings)
+
+
+@app.route("/mapping/33nozzle/delete", methods=["POST"])
+def delete_multiple_mappings_nozzle():
+    ids = request.form.getlist("mapping_ids")
+    if ids:
+        conn = get_conn()
+        cur = conn.cursor()
+        cur.execute("DELETE FROM nozzle_mapping WHERE id = ANY(%s)", (ids,))
+        conn.commit()
+        cur.close()
+        conn.close()
+        flash(f"❌ Deleted {len(ids)} mapping(s)", "warning")
+    else:
+        flash("⚠️ No mappings selected", "danger")
+    return redirect(url_for("mapping_nozzle"))
 
 
 

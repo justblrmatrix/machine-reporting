@@ -44,24 +44,34 @@
 </form>
 
 <h3>Existing Mappings</h3>
-<table class="table table-sm table-bordered">
-  <thead>
-    <tr>
-      <th>Store</th><th>PLU</th><th>Ingredient</th><th>Volume</th><th>Created</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for m in mappings %}
-    <tr>
-      <td>{{ m.store_id }}</td>
-      <td>{{ m.plu_code }}</td>
-      <td>{{ m.ingredient_name }}</td>
-      <td>{{ m.volume }}</td>
-      <td>{{ m.created_at }}</td>
-    </tr>
-    {% endfor %}
-  </tbody>
-</table>
+<form method="post" action="{{ url_for('delete_multiple_mappings_nozzle') }}">
+  <table class="table table-sm table-bordered">
+    <thead>
+      <tr>
+        <th><input type="checkbox" id="selectAll"></th>
+        <th>Store</th>
+        <th>PLU</th>
+        <th>Ingredient</th>
+        <th>Volume</th>
+        <th>Created</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for m in mappings %}
+      <tr>
+        <td><input type="checkbox" name="mapping_ids" value="{{ m.id }}"></td>
+        <td>{{ m.store_id }}</td>
+        <td>{{ m.plu_code }}</td>
+        <td>{{ m.ingredient_name }}</td>
+        <td>{{ m.volume }}</td>
+        <td>{{ m.created_at }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <button type="submit" class="btn btn-danger"
+          onclick="return confirm('Delete selected mappings?')">🗑 Delete Selected</button>
+</form>
 
 <script>
 document.getElementById("addRow").addEventListener("click", function() {
@@ -74,6 +84,11 @@ document.addEventListener("click", function(e) {
   if (e.target.classList.contains("remove-row")) {
     e.target.closest(".ingredient-row").remove();
   }
+});
+// Select/Deselect all checkboxes
+document.getElementById("selectAll").addEventListener("change", function() {
+  let checkboxes = document.querySelectorAll('input[name="mapping_ids"]');
+  checkboxes.forEach(cb => cb.checked = this.checked);
 });
 </script>
 {% endblock %}
