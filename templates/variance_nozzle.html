@@ -38,9 +38,17 @@
       <td class="text-end">{{ "%.2f"|format(r.machine_sales or 0) }}</td>
       <td class="text-end">{{ "%.2f"|format(r.expected_closing or 0) }}</td>
       <td class="text-end">{{ "%.2f"|format(r.physical_closing or 0) }}</td>
-      <td class="text-end {% if r.variance != 0 %}table-danger{% endif %}">
-        {{ "%.2f"|format(r.variance or 0) }}
-      </td>
+      <td class="text-end 
+        {% if r.variance is not none %}
+            {% if r.variance >= 0 %}
+                table-success
+            {% else %}
+                table-danger
+            {% endif %}
+        {% endif %}
+    ">
+      {{ "%.2f"|format(r.variance or 0) }}
+    </td>
     </tr>
     {% endfor %}
   </tbody>
