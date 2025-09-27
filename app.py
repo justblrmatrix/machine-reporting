@@ -298,6 +298,9 @@ def normalize_name(raw):
 @app.route("/variance/nozzle", methods=["GET", "POST"])
 def variance_nozzle():
     from psycopg2.extras import RealDictCursor
+    import re
+    from datetime import datetime, date, timedelta
+
     conn = get_conn()
     cur = conn.cursor(cursor_factory=RealDictCursor)
 
@@ -322,9 +325,9 @@ def variance_nozzle():
     mapping_dict = {}
     for row in mapping_rows:
         key = normalize_name(row["machine_name"])
-        mapping_dict.setdefault(key, []).append((row["ingredient_name"], row["volume"]))
+        mapping_dict.setdefault(key, []).append((row["ingredient_name"], float(row["volume"] or 1)))
 
-    # load nozzle sales (machine source)
+    # load nozzle sales (machine source → convert ml to UNITS)
     cur.execute("""
         SELECT machine_name, quantity
         FROM sales_transactions
@@ -336,14 +339,14 @@ def variance_nozzle():
     for row in nozzle_rows:
         key = normalize_name(row["machine_name"])
         if key in mapping_dict:
-            for ing, _ in mapping_dict[key]:
-                # NOTE: use quantity directly, not multiplied by volume
-                machine_consumption[ing] = machine_consumption.get(ing, 0) + (row["quantity"] or 0)
+            for ing, vol in mapping_dict[key]:
+                qty_ml = float(row["quantity"] or 0)
+                if vol > 0:
+                    machine_consumption[ing] = machine_consumption.get(ing, 0) + (qty_ml / vol)
 
-
-    # load POS sales (needs conversion: qty × volume)
+    # load POS sales (use UNITS directly, not ml)
     cur.execute("""
-        SELECT st.plu_code, st.quantity, nm.ingredient_name, nm.volume
+        SELECT st.plu_code, st.quantity, nm.ingredient_name
         FROM sales_transactions st
         JOIN nozzle_mapping nm
           ON st.plu_code = nm.plu_code AND st.store_id = nm.store_id
@@ -354,9 +357,8 @@ def variance_nozzle():
     pos_consumption = {}
     for row in pos_rows:
         ing = row["ingredient_name"]
-        qty = float(row["quantity"] or 0)
-        vol = float(row["volume"] or 0)
-        pos_consumption[ing] = pos_consumption.get(ing, 0) + qty * vol
+        qty_units = float(row["quantity"] or 0)
+        pos_consumption[ing] = pos_consumption.get(ing, 0) + qty_units
 
     # load stock
     cur.execute("""
@@ -397,6 +399,7 @@ def variance_nozzle():
     conn.close()
 
     return render_template("variance_nozzle.html", rows=rows, selected_date=selected_date)
+
 
 
 
