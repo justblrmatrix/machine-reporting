@@ -16,34 +16,35 @@
   </form>
 
   <table class="table table-bordered table-striped table-sm">
-    <thead class="table-dark">
-      <tr>
-        <th>Ingredient</th>
-        <th class="text-end">Opening</th>
-        <th class="text-end">Replenishment</th>
-        <th class="text-end">POS Sales</th>
-        <th class="text-end">Machine Sales</th>
-        <th class="text-end">Expected Closing</th>
-        <th class="text-end">Physical Closing</th>
-        <th class="text-end">Variance (POS - Machine)</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for r in rows %}
-      <tr>
-        <td>{{ r.ingredient_name }}</td>
-        <td class="text-end">{{ "%.2f"|format(r.opening or 0) }}</td>
-        <td class="text-end">{{ "%.2f"|format(r.replenishment or 0) }}</td>
-        <td class="text-end">{{ "%.2f"|format(r.pos_sales or 0) }}</td>
-        <td class="text-end">{{ "%.2f"|format(r.machine_sales or 0) }}</td>
-        <td class="text-end">{{ "%.2f"|format(r.expected_closing or 0) }}</td>
-        <td class="text-end">{{ "%.2f"|format(r.physical_closing or 0) }}</td>
-        <td class="text-end {% if (r.pos_sales or 0) - (r.machine_sales or 0) != 0 %}table-danger{% endif %}">
-          {{ "%.2f"|format(r.variance or 0) }}
-        </td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+  <thead class="table-dark">
+    <tr>
+      <th>Ingredient</th>
+      <th class="text-end">Opening (ml)</th>
+      <th class="text-end">Replenishment (ml)</th>
+      <th class="text-end">POS Sales (units)</th>
+      <th class="text-end">Machine Sales (units)</th>
+      <th class="text-end">Expected Closing (ml)</th>
+      <th class="text-end">Physical Closing (ml)</th>
+      <th class="text-end">Variance (units)</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for r in rows %}
+    <tr>
+      <td>{{ r.ingredient_name }}</td>
+      <td class="text-end">{{ "%.2f"|format(r.opening or 0) }}</td>
+      <td class="text-end">{{ "%.2f"|format(r.replenishment or 0) }}</td>
+      <td class="text-end">{{ "%.2f"|format(r.pos_sales or 0) }}</td>
+      <td class="text-end">{{ "%.2f"|format(r.machine_sales or 0) }}</td>
+      <td class="text-end">{{ "%.2f"|format(r.expected_closing or 0) }}</td>
+      <td class="text-end">{{ "%.2f"|format(r.physical_closing or 0) }}</td>
+      <td class="text-end {% if r.variance != 0 %}table-danger{% endif %}">
+        {{ "%.2f"|format(r.variance or 0) }}
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
 </div>
 {% endblock %}

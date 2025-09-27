@@ -44,8 +44,16 @@
 </form>
 
 <h3>Existing Mappings</h3>
-<form method="post" action="{{ url_for('delete_multiple_mappings_nozzle') }}">
-  <table class="table table-sm table-bordered">
+
+<div class="mb-3">
+  <input type="text" id="filterInput" class="form-control" placeholder="🔍 Filter by ingredient, PLU, or store...">
+</div>
+
+<form method="post" action="{{ url_for('delete_mappings_nozzle') }}">
+  <button type="submit" class="btn btn-danger mb-2"
+          onclick="return confirm('Delete selected mappings?')">🗑 Delete Selected</button>
+
+  <table class="table table-sm table-bordered" id="mappingTable">
     <thead>
       <tr>
         <th><input type="checkbox" id="selectAll"></th>
@@ -59,7 +67,7 @@
     <tbody>
       {% for m in mappings %}
       <tr>
-        <td><input type="checkbox" name="mapping_ids" value="{{ m.id }}"></td>
+        <td><input type="checkbox" name="ids[]" value="{{ m.id }}"></td>
         <td>{{ m.store_id }}</td>
         <td>{{ m.plu_code }}</td>
         <td>{{ m.ingredient_name }}</td>
@@ -69,8 +77,6 @@
       {% endfor %}
     </tbody>
   </table>
-  <button type="submit" class="btn btn-danger"
-          onclick="return confirm('Delete selected mappings?')">🗑 Delete Selected</button>
 </form>
 
 <script>
@@ -86,9 +92,30 @@ document.addEventListener("click", function(e) {
   }
 });
 // Select/Deselect all checkboxes
+
+// ✅ Filter table rows
+document.getElementById("filterInput").addEventListener("keyup", function() {
+  let filter = this.value.toLowerCase();
+  let rows = document.querySelectorAll("#mappingTable tbody tr");
+
+  rows.forEach(row => {
+    let text = row.innerText.toLowerCase();
+    row.style.display = text.includes(filter) ? "" : "none";
+  });
+
+  // Reset "select all" when filtering
+  document.getElementById("selectAll").checked = false;
+});
+
+// ✅ Select/Deselect only visible checkboxes
 document.getElementById("selectAll").addEventListener("change", function() {
-  let checkboxes = document.querySelectorAll('input[name="mapping_ids"]');
-  checkboxes.forEach(cb => cb.checked = this.checked);
+  let checked = this.checked;
+  document.querySelectorAll("#mappingTable tbody tr").forEach(row => {
+    if (row.style.display !== "none") {
+      let cb = row.querySelector("input[name='ids[]']");
+      if (cb) cb.checked = checked;
+    }
+  });
 });
 </script>
 {% endblock %}
