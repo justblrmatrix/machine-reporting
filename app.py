@@ -313,7 +313,7 @@ def variance_nozzle():
             return ""
         return re.sub(r"[^a-z0-9]+", "", name.lower())
 
-    # --- Load nozzle mapping (active only, WITH plu_code) ---
+    # --- Load nozzle mapping ---
     cur.execute("""
         SELECT store_id, plu_code, machine_name, ingredient_name, volume
         FROM nozzle_mapping
@@ -321,18 +321,22 @@ def variance_nozzle():
     """)
     mapping_rows = cur.fetchall()
 
-    # dict for machine → ingredient
+    # mapping for machine names → (ingredient, volume, store)
     mapping_dict_machine = {}
     for row in mapping_rows:
         key = normalize_name(row["machine_name"])
-        mapping_dict_machine.setdefault(key, []).append((row["ingredient_name"], float(row["volume"] or 1)))
+        mapping_dict_machine.setdefault(key, []).append(
+            (row["ingredient_name"], float(row["volume"] or 1), row["store_id"])
+        )
 
-    # dict for (plu_code, store_id) → ingredient
+    # mapping for plu_code+store → (ingredient, volume)
     mapping_dict_plu = {}
     for row in mapping_rows:
-        mapping_dict_plu[(row["plu_code"], row["store_id"])] = (row["ingredient_name"], float(row["volume"] or 1))
+        mapping_dict_plu[(row["plu_code"], row["store_id"])] = (
+            row["ingredient_name"], float(row["volume"] or 1)
+        )
 
-    # --- POS sales (restricted by mapping store_id + plu_code) ---
+    # --- POS sales (restricted by store_id in mapping) ---
     cur.execute("""
         SELECT st.plu_code, st.store_id, st.quantity
         FROM sales_transactions st
@@ -340,17 +344,18 @@ def variance_nozzle():
     """, (d,))
     pos_rows = cur.fetchall()
 
-    pos_units = {}
-    pos_ml = {}
+    pos_units_store = {}
+    pos_ml_store = {}
     for row in pos_rows:
         key = (row["plu_code"], row["store_id"])
         if key in mapping_dict_plu:
             ing, vol = mapping_dict_plu[key]
             qty = float(row["quantity"] or 0)
-            pos_units[ing] = pos_units.get(ing, 0) + qty
-            pos_ml[ing] = pos_ml.get(ing, 0) + qty * vol
+            ikey = (ing, row["store_id"])  # ingredient-store
+            pos_units_store[ikey] = pos_units_store.get(ikey, 0) + qty
+            pos_ml_store[ikey] = pos_ml_store.get(ikey, 0) + qty * vol
 
-    # --- Machine sales (normalize machine_name → ingredient) ---
+    # --- Machine sales ---
     cur.execute("""
         SELECT machine_name, quantity
         FROM sales_transactions
@@ -358,16 +363,17 @@ def variance_nozzle():
     """, (d,))
     nozzle_rows = cur.fetchall()
 
-    machine_units = {}
+    machine_units_store = {}
     for row in nozzle_rows:
         key = normalize_name(row["machine_name"])
         if key in mapping_dict_machine:
-            for ing, vol in mapping_dict_machine[key]:
+            for ing, vol, store_id in mapping_dict_machine[key]:
                 qty_ml = float(row["quantity"] or 0)
                 if vol > 0:
-                    machine_units[ing] = machine_units.get(ing, 0) + (qty_ml / vol)
+                    ikey = (ing, store_id)
+                    machine_units_store[ikey] = machine_units_store.get(ikey, 0) + (qty_ml / vol)
 
-    # --- Stock (still in ml) ---
+    # --- Stock (ml, cluster-level only) ---
     cur.execute("""
         SELECT ingredient_name,
                SUM(CASE WHEN date = %s THEN closing ELSE 0 END) AS opening,
@@ -379,7 +385,19 @@ def variance_nozzle():
     """, (d_prev, d, d, d_prev, d))
     stock_rows = {r["ingredient_name"]: r for r in cur.fetchall()}
 
-    # --- Merge everything ---
+    # --- Aggregate to cluster level ---
+    pos_units = {}
+    pos_ml = {}
+    for (ing, _store), val in pos_units_store.items():
+        pos_units[ing] = pos_units.get(ing, 0) + val
+    for (ing, _store), val in pos_ml_store.items():
+        pos_ml[ing] = pos_ml.get(ing, 0) + val
+
+    machine_units = {}
+    for (ing, _store), val in machine_units_store.items():
+        machine_units[ing] = machine_units.get(ing, 0) + val
+
+    # --- Merge ---
     ingredients = set(stock_rows.keys()) | set(pos_units.keys()) | set(machine_units.keys())
     rows = []
     for ing in sorted(ingredients):
@@ -392,10 +410,8 @@ def variance_nozzle():
         pos_ml_val = float(pos_ml.get(ing, 0))
         machine_units_val = float(machine_units.get(ing, 0))
 
-        # stock in ml → expected closing uses pos_ml (consumed volume)
-        expected_closing = opening + replenishment - pos_ml_val
-        # variance in units → POS units vs machine units
-        variance = pos_units_val - machine_units_val
+        expected_closing = opening + replenishment - pos_ml_val  # stock in ml
+        variance = pos_units_val - machine_units_val             # compare units
 
         rows.append({
             "ingredient_name": ing,
