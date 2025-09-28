@@ -826,7 +826,7 @@ def variance_vending():
             "machine_sales": round(machine_qty, 2),
             "variance": round(variance, 2)
         })
-
+    rows = [r for r in rows if r["plu_code"] not in ("JB3001", "DIGI41226")] # remove thwn fixed.
 
     return render_template("variance_vending.html", rows=rows, selected_date=selected_date)
 
