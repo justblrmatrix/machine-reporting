@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-4">
+  <h2>Robobar Mapping</h2>
+
+  <form method="post" class="mb-4">
+    <div class="row g-3">
+      <div class="col-md-3">
+        <label class="form-label">Machine ID</label>
+        <input type="text" name="machine_id" class="form-control" required>
+      </div>
+      <div class="col-md-3">
+        <label class="form-label">PLU Code</label>
+        <input type="text" name="plu_code" class="form-control" required>
+      </div>
+      <div class="col-md-3">
+        <label class="form-label">Digitory Name</label>
+        <input type="text" name="digitory_name" class="form-control">
+      </div>
+      <div class="col-md-3">
+        <label class="form-label">Machine Name</label>
+        <input type="text" name="machine_name" class="form-control">
+      </div>
+    </div>
+
+    <div class="row g-3 mt-2">
+      <div class="col-md-6">
+        <label class="form-label">Stores</label>
+        <select name="store_ids" multiple class="form-select" required>
+          {% for sid in stores %}
+          <option value="{{ sid }}">{{ sid }}</option>
+          {% endfor %}
+        </select>
+        <div class="form-text">Hold Ctrl/Cmd to select multiple</div>
+      </div>
+    </div>
+
+    <button class="btn btn-primary mt-3">Save Mapping</button>
+  </form>
+
+  <h3>Existing Mappings</h3>
+  <form method="post" action="{{ url_for('delete_robobar_mappings') }}">
+  <table class="table table-sm table-bordered">
+    <thead>
+      <tr>
+        <th><input type="checkbox" id="selectAll"></th>
+        <th>Store</th>
+        <th>PLU Code</th>
+        <th>Digitory Name</th>
+        <th>Machine Name</th>
+        <th>Machine ID</th>
+        <th>Created</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for m in mappings %}
+      <tr>
+        <td><input type="checkbox" name="ids" value="{{ m.id }}"></td>
+        <td>{{ m.store_id }}</td>
+        <td>{{ m.plu_code }}</td>
+        <td>{{ m.digitory_name }}</td>
+        <td>{{ m.machine_name }}</td>
+        <td>{{ m.machine_id }}</td>
+        <td>{{ m.created_at }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <button class="btn btn-danger mt-2">Delete Selected</button>
+</form>
+
+</div>
+
+<script>
+document.getElementById("selectAll").addEventListener("click", function(e) {
+  document.querySelectorAll("input[name='ids']").forEach(cb => cb.checked = e.target.checked);
+});
+</script>
+{% endblock %}

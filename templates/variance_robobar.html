@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-4">
+  <h3>Variance Report – Robobar</h3>
+
+  <form method="POST" class="row g-2 mb-3">
+    <div class="col-auto">
+      <label for="date" class="col-form-label">Date:</label>
+    </div>
+    <div class="col-auto">
+      <input type="date" class="form-control" id="date" name="date" value="{{ selected_date }}">
+    </div>
+    <div class="col-auto">
+      <button type="submit" class="btn btn-primary">Show</button>
+    </div>
+  </form>
+
+  <table class="table table-bordered table-striped table-sm">
+    <thead class="table-dark">
+      <tr>
+        <th>PLU</th>
+        <th>Machine Name</th>
+        <th class="text-end">POS Sales (units)</th>
+        <th class="text-end">Machine Sales (units)</th>
+        <th class="text-end">Variance (POS - Machine)</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for r in rows %}
+      <tr>
+        <td>{{ r.plu_code }}</td>
+        <td>{{ r.machine_name }}</td>
+        <td class="text-end">{{ "%.2f"|format(r.pos_sales or 0) }}</td>
+        <td class="text-end">{{ "%.2f"|format(r.machine_sales or 0) }}</td>
+        <td class="text-end {% if r.variance < 0 %}table-danger{% else %}table-success{% endif %}">
+          {{ "%.2f"|format(r.variance or 0) }}
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

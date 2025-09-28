@@ -526,8 +526,146 @@ def variance_nozzle():
         )
 
     return render_template("variance_nozzle.html", rows=rows, selected_date=selected_date)
+ 
 
 
+@app.route("/mapping/robobar", methods=["GET", "POST"])
+def mapping_robobar():
+    conn = get_conn()
+    cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+
+    if request.method == "POST":
+        machine_id = request.form.get("machine_id")
+        plu_code = request.form.get("plu_code")
+        digitory_name = request.form.get("digitory_name")
+        machine_name = request.form.get("machine_name")
+        store_ids = request.form.getlist("store_ids")  # multiple
+
+        for sid in store_ids:
+            cur.execute("""
+                INSERT INTO robobar_mapping (machine_id, store_id, plu_code, digitory_name, machine_name)
+                VALUES (%s, %s, %s, %s, %s)
+                ON CONFLICT (store_id, plu_code) DO UPDATE
+                SET machine_id = EXCLUDED.machine_id,
+                    digitory_name = EXCLUDED.digitory_name,
+                    machine_name = EXCLUDED.machine_name
+            """, (machine_id, sid, plu_code, digitory_name, machine_name))
+
+        conn.commit()
+        flash(f"✅ Robobar mapping saved for {plu_code}", "success")
+        return redirect(url_for("mapping_robobar"))
+
+    # Existing mappings
+    cur.execute("""
+        SELECT * FROM robobar_mapping
+        ORDER BY store_id, plu_code
+    """)
+    mappings = cur.fetchall()
+
+    # Distinct stores for selection
+    cur.execute("SELECT DISTINCT store_id FROM sales_transactions WHERE store_id IS NOT NULL ORDER BY store_id")
+    stores = [row[0] for row in cur.fetchall()]
+
+    cur.close()
+    conn.close()
+
+    return render_template("mapping_robobar.html", mappings=mappings, stores=stores)
+
+@app.route("/mapping/robobar/delete", methods=["POST"])
+def delete_robobar_mappings():
+    ids = request.form.getlist("ids")
+    if not ids:
+        flash("⚠️ No mappings selected for deletion", "warning")
+        return redirect(url_for("mapping_robobar"))
+
+    conn = get_conn()
+    cur = conn.cursor()
+    cur.execute("DELETE FROM robobar_mapping WHERE id = ANY(%s)", (ids,))
+    conn.commit()
+    cur.close()
+    conn.close()
+
+    flash(f"❌ Deleted {len(ids)} mappings", "warning")
+    return redirect(url_for("mapping_robobar"))
+
+
+@app.route("/variance/robobar", methods=["GET", "POST"])
+def variance_robobar():
+    from psycopg2.extras import RealDictCursor
+    import re
+    from datetime import datetime, date
+
+    def normalize_name(name: str) -> str:
+        """Aggressive normalization: lowercase, remove all non-alphanumerics."""
+        return re.sub(r"[^a-z0-9]+", "", name.lower()) if name else ""
+
+    conn = get_conn()
+    cur = conn.cursor(cursor_factory=RealDictCursor)
+
+    # Selected date
+    selected_date = request.form.get("date") or date.today().strftime("%Y-%m-%d")
+    d = datetime.strptime(selected_date, "%Y-%m-%d").date()
+
+    # --- Load robobar mappings ---
+    cur.execute("""
+        SELECT DISTINCT plu_code, machine_name
+        FROM robobar_mapping
+    """)
+    mappings = cur.fetchall()
+
+    # Map plu_code -> normalized machine_name + pretty display
+    mapping_dict = {}
+    for row in mappings:
+        norm_mname = normalize_name(row["machine_name"])
+        mapping_dict[row["plu_code"]] = {
+            "machine_name_display": row["machine_name"],
+            "machine_name_norm": norm_mname
+        }
+
+    # --- POS sales (cluster level) ---
+    cur.execute("""
+        SELECT plu_code, SUM(quantity) as qty
+        FROM sales_transactions
+        WHERE source = 'POS' AND date = %s
+        GROUP BY plu_code
+    """, (d,))
+    pos_rows = cur.fetchall()
+    pos_sales = {row["plu_code"]: float(row["qty"] or 0) for row in pos_rows}
+
+    # --- Robobar machine sales (cluster level) ---
+    cur.execute("""
+        SELECT machine_name, SUM(quantity) as qty
+        FROM sales_transactions
+        WHERE source = 'Robobar' AND date = %s
+        GROUP BY machine_name
+    """, (d,))
+    machine_rows = cur.fetchall()
+
+    machine_sales = {}
+    for row in machine_rows:
+        norm_name = normalize_name(row["machine_name"])
+        qty = float(row["qty"] or 0)
+        machine_sales[norm_name] = machine_sales.get(norm_name, 0) + qty
+
+    # --- Merge by PLU ---
+    rows = []
+    for plu, mapping in mapping_dict.items():
+        pos_qty = pos_sales.get(plu, 0)
+        mach_qty = machine_sales.get(mapping["machine_name_norm"], 0)
+        variance = pos_qty - mach_qty
+
+        rows.append({
+            "plu_code": plu,
+            "machine_name": mapping["machine_name_display"],  # pretty
+            "pos_sales": round(pos_qty, 2),
+            "machine_sales": round(mach_qty, 2),
+            "variance": round(variance, 2)
+        })
+
+    cur.close()
+    conn.close()
+
+    return render_template("variance_robobar.html", rows=rows, selected_date=selected_date)
 
 
 
