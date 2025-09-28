@@ -1,0 +1,542 @@
+[
+  {
+    "machines": [
+      {
+        "machine_id": "2505080249",
+        "slots": [1, 2, 3, 5, 6, 7]
+      },
+      {
+        "machine_id": "2505080251",
+        "slots": [1, 2, 3, 5, 6, 7]
+      }
+    ],
+    "items": [
+      {
+        "name": "Sprite",
+        "plucode": "JB063",
+        "store_id": [18],
+        "multiplier": 1,
+        "main": true
+      }
+    ]
+  },
+  {
+    "machines": [
+      {
+        "machine_id": "2505080249",
+        "slots": [11, 12, 13, 14, 15, 16, 17, 18, 19]
+      },
+      {
+        "machine_id": "2505080251",
+        "slots": [11, 12, 13, 14, 15, 16, 17, 18, 19]
+      }
+    ],
+    "items": [
+      {
+        "name": "Cococola",
+        "plucode": "JB877",
+        "store_id": [18],
+        "multiplier": 1,
+        "main": true
+      }
+    ]
+  },
+  {
+    "machines": [
+      {
+        "machine_id": "2505090001",
+        "slots": [1, 2, 3, 4, 5, 6, 7, 8, 9, 21, 22, 23, 24, 25, 26, 27, 28, 29]
+      },
+      {
+        "machine_id": "2505070358",
+        "slots": [1, 2, 3, 4, 5, 6, 7, 8, 9, 21, 22, 23, 24, 25, 26, 27, 28, 29]
+      }
+    ],
+    "items": [
+      {
+        "name": "Budweiser Premium",
+        "plucode": "JB 3001",
+        "store_id": [18],
+        "multiplier": 1,
+        "main": true
+      }
+    ]
+  },
+  {
+    "machines": [
+      {
+        "machine_id": "2505090001",
+        "slots": [11, 12, 13, 14, 15, 16, 17, 18, 19]
+      },
+      {
+        "machine_id": "2505070358",
+        "slots": [11, 12, 13, 14, 15, 16, 17, 18, 19]
+      }
+    ],
+    "items": [
+      {
+        "name": "Budweiser Magnum",
+        "plucode": "DIGI-41226",
+        "store_id": [18],
+        "multiplier": 1,
+        "main": true
+      }
+    ]
+  },
+  {
+    "machines": [
+      {
+        "machine_id": "2505090001",
+        "slots": [31, 32, 33, 34, 35, 36, 37, 38, 39]
+      },
+      {
+        "machine_id": "2505070358",
+        "slots": [31, 32, 33, 34, 35, 36, 37, 38, 39]
+      }
+    ],
+    "items": [
+      {
+        "name": "Corona",
+        "plucode": "100002",
+        "store_id": [18],
+        "multiplier": 1,
+        "main": true
+      }
+    ]
+  },
+  {
+    "machines": [
+      {
+        "machine_id": "2505090001",
+        "slots": [41, 42, 43, 44, 45, 46, 47, 48, 49]
+      },
+      {
+        "machine_id": "2505070358",
+        "slots": [41, 42, 43, 44, 45, 46, 47, 48, 49]
+      }
+    ],
+    "items": [
+      {
+        "name": "Hoegarden Peach",
+        "plucode": "DIGI-81004",
+        "store_id": [18],
+        "multiplier": 1,
+        "main": true
+      }
+    ]
+  },
+  {
+    "machines": [
+      {
+        "machine_id": "2505080249",
+        "slots": [21, 22, 23, 24, 25, 26, 27, 28, 29]
+      }
+    ],
+    "items": [
+      {
+        "name": "irish bomb",
+        "plucode": "DIGI-83805",
+        "store_id": [17, 18, 42],
+        "multiplier": 0.3,
+        "main": false
+      },
+      {
+        "name": "Ginger Ale",
+        "plucode": "JB060",
+        "store_id": [18],
+        "multiplier": 1,
+        "main": true
+      }
+    ]
+  },
+  {
+    "machines": [
+      {
+        "machine_id": "2505080251",
+        "slots": [21, 22, 23, 24, 25, 26, 27, 28, 29]
+      }
+    ],
+    "items": [
+      {
+        "name": "jaeger bomb",
+        "plucode": "JB033",
+        "store_id": [17, 18, 42],
+        "multiplier": 0.5,
+        "main": false
+      },
+      {
+        "name": "Red bull",
+        "plucode": "JB058",
+        "store_id": [18],
+        "multiplier": 1,
+        "main": true
+      }
+    ]
+  },
+  {
+    "machines": [
+      {
+        "machine_id": "2505080249",
+        "slots": [31, 32, 33, 34, 35, 36, 37, 38, 39]
+      },
+      {
+        "machine_id": "2505080251",
+        "slots": [31, 32, 33, 34, 35, 36, 37, 38, 39]
+      }
+    ],
+    "items": [
+      {
+        "name": "Tonic Water",
+        "plucode": "JB 4002",
+        "store_id": [18],
+        "multiplier": 1,
+        "main": true
+      },
+      {
+        "name": "Mango chilli G&T",
+        "plucode": "DIGI-83749",
+        "store_id": [17, 18, 42],
+        "multiplier": 0.3,
+        "main": false
+      },
+      {
+        "name": "bali bliss",
+        "plucode": "DIGI-83754",
+        "store_id": [17, 18, 42],
+        "multiplier": 0.3,
+        "main": false
+      }
+    ]
+  },
+  {
+    "machines": [
+      {
+        "machine_id": "2505080249",
+        "slots": [41, 42, 43, 44, 45, 46, 47, 48, 49]
+      },
+      {
+        "machine_id": "2505080251",
+        "slots": [41, 42, 43, 44, 45, 46, 47, 48, 49]
+      }
+    ],
+    "items": [
+      {
+        "name": "Diet Coke",
+        "plucode": "JB059",
+        "store_id": [18],
+        "multiplier": 1,
+        "main": true
+      }
+    ]
+  },
+  {
+    "machines": [
+      {
+        "machine_id": "2505080249",
+        "slots": [51, 52, 53, 54, 55, 56, 57, 58, 59]
+      },
+      {
+        "machine_id": "2505080251",
+        "slots": [51, 52, 53, 54, 55, 56, 57, 58, 59]
+      }
+    ],
+    "items": [
+      {
+        "name": "Soda",
+        "plucode": "DIGI-80664",
+        "store_id": [18],
+        "multiplier": 1,
+        "main": true
+      }
+    ]
+  },
+  {
+    "machines": [
+      {
+        "machine_id": "2407300075",
+        "slots": [1, 2, 3, 4, 5, 6, 7, 8, 9]
+      }
+    ],
+    "items": [
+      {
+        "name": "Hoegarden wheat",
+        "plucode": "DIGI-80877",
+        "store_id": [18],
+        "multiplier": 1,
+        "main": true
+      }
+    ]
+  },
+  {
+    "machines": [
+      {
+        "machine_id": "2407300075",
+        "slots": [11, 12, 13, 14, 15, 16, 17, 18, 19]
+      }
+    ],
+    "items": [
+      {
+        "name": "Bacardi Orange",
+        "plucode": "JB083",
+        "store_id": [18],
+        "multiplier": 1,
+        "main": true
+      }
+    ]
+  },
+  {
+    "machines": [
+      {
+        "machine_id": "2407300075",
+        "slots": [21, 22, 23, 24, 25]
+      }
+    ],
+    "items": [
+      {
+        "name": "Bacardi Blueberry",
+        "plucode": "JB 5063",
+        "store_id": [18],
+        "multiplier": 1,
+        "main": true
+      }
+    ]
+  },
+  {
+    "machines": [
+      {
+        "machine_id": "2407300075",
+        "slots": [26, 27, 28, 29]
+      }
+    ],
+    "items": [
+      {
+        "name": "Bacardi Blackberry",
+        "plucode": "DIGI-26866",
+        "store_id": [18],
+        "multiplier": 1,
+        "main": true
+      }
+    ]
+  },
+  {
+    "machines": [
+      {
+        "machine_id": "2407300075",
+        "slots": [31, 32, 33, 34, 35]
+      }
+    ],
+    "items": [
+      {
+        "name": "Bacardi Cranberry",
+        "plucode": "JB081",
+        "store_id": [18],
+        "multiplier": 1,
+        "main": true
+      }
+    ]
+  },
+  {
+    "machines": [
+      {
+        "machine_id": "2407300075",
+        "slots": [36, 37, 38, 39]
+      }
+    ],
+    "items": [
+      {
+        "name": "Breezer jamaican passion",
+        "plucode": "JB082",
+        "store_id": [18],
+        "multiplier": 1,
+        "main": true
+      }
+    ]
+  },
+  {
+    "machines": [
+      {
+        "machine_id": "2407300075",
+        "slots": [41, 42, 43]
+      }
+    ],
+    "items": [
+      {
+        "name": "Soju Regular",
+        "plucode": "DIGI-42916",
+        "store_id": [18],
+        "multiplier": 1,
+        "main": true
+      }
+    ]
+  },
+  {
+    "machines": [
+      {
+        "machine_id": "2407300075",
+        "slots": [44, 45]
+      }
+    ],
+    "items": [
+      {
+        "name": "Soju Strawberry",
+        "plucode": "DIGI-42913",
+        "store_id": [18],
+        "multiplier": 1,
+        "main": true
+      }
+    ]
+  },
+  {
+    "machines": [
+      {
+        "machine_id": "2407300075",
+        "slots": [46, 47]
+      }
+    ],
+    "items": [
+      {
+        "name": "Soju blueberry",
+        "plucode": "DIGI-42914",
+        "store_id": [18],
+        "multiplier": 1,
+        "main": true
+      }
+    ]
+  },
+  {
+    "machines": [
+      {
+        "machine_id": "2407300075",
+        "slots": [48, 49]
+      }
+    ],
+    "items": [
+      {
+        "name": "Soju Peach",
+        "plucode": "DIGI-42915",
+        "store_id": [18],
+        "multiplier": 1,
+        "main": true
+      }
+    ]
+  },
+  {
+    "machines": [
+      {
+        "machine_id": "2505090192",
+        "slots": [1, 2]
+      }
+    ],
+    "items": [
+      {
+        "name": "Classic Connect",
+        "plucode": "DIGI-68443",
+        "store_id": [18],
+        "multiplier": 1,
+        "main": true
+      }
+    ]
+  },
+  {
+    "machines": [
+      {
+        "machine_id": "2505090192",
+        "slots": [12]
+      }
+    ],
+    "items": [
+      {
+        "name": "Goldflake Mixpod",
+        "plucode": "DIGI-64004",
+        "store_id": [18],
+        "multiplier": 1,
+        "main": true
+      }
+    ]
+  },
+  {
+    "machines": [
+      {
+        "machine_id": "2505090192",
+        "slots": [15]
+      }
+    ],
+    "items": [
+      {
+        "name": "Goldflake Social 2 pod",
+        "plucode": "DIGI-83822",
+        "store_id": [18],
+        "multiplier": 1,
+        "main": true
+      }
+    ]
+  },
+  {
+    "machines": [
+      {
+        "machine_id": "2505090192",
+        "slots": [21, 22, 23, 24, 25, 26]
+      }
+    ],
+    "items": [
+      {
+        "name": "Goldflake lights",
+        "plucode": "JB038",
+        "store_id": [18],
+        "multiplier": 1,
+        "main": true
+      }
+    ]
+  },
+  {
+    "machines": [
+      {
+        "machine_id": "2505090192",
+        "slots": [31, 32, 33, 34, 35, 36]
+      }
+    ],
+    "items": [
+      {
+        "name": "Goldflake kings",
+        "plucode": "JB037",
+        "store_id": [18],
+        "multiplier": 1,
+        "main": true
+      }
+    ]
+  },
+  {
+    "machines": [
+      {
+        "machine_id": "2505090192",
+        "slots": [41, 42, 43, 44, 45, 46]
+      }
+    ],
+    "items": [
+      {
+        "name": "Classic Iceburst",
+        "plucode": "JB844",
+        "store_id": [18],
+        "multiplier": 1,
+        "main": true
+      }
+    ]
+  },
+  {
+    "machines": [
+      {
+        "machine_id": "2505090192",
+        "slots": [51, 52, 53, 54, 55, 56]
+      }
+    ],
+    "items": [
+      {
+        "name": "Classic Mild",
+        "plucode": "JB039",
+        "store_id": [18],
+        "multiplier": 1,
+        "main": true
+      }
+    ]
+  }
+]

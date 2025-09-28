@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-4">
+  <h3>Variance Report – Vending Machines</h3>
+
+  <form method="POST" class="row g-2 mb-3">
+    <div class="col-auto">
+      <label for="date" class="col-form-label">Date:</label>
+    </div>
+    <div class="col-auto">
+      <input type="date" class="form-control" id="date" name="date" value="{{ selected_date }}">
+    </div>
+    <div class="col-auto">
+      <button type="submit" class="btn btn-primary">Show</button>
+    </div>
+  </form>
+
+  <div class="mb-3">
+    <input type="text" id="filterInput" class="form-control" placeholder="🔍 Search PLU or Product...">
+  </div>
+
+  <table class="table table-bordered table-striped table-sm" id="varianceTable">
+    <thead class="table-dark">
+      <tr>
+        <th>PLU</th>
+        <th>Product Name</th>
+        <th class="text-end">POS Sales (units)</th>
+        <th class="text-end">Machine Sales (units)</th>
+        <th class="text-end">Variance</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for r in rows %}
+      <tr>
+        <td>{{ r.plu_code }}</td>
+        <td>{{ r.product_name }}</td>
+        <td class="text-end">{{ r.pos_sales }}</td>
+        <td class="text-end">{{ r.machine_sales }}</td>
+        <td class="text-end
+          {% if r.variance >= 0 %}
+            table-success
+          {% else %}
+            table-danger
+          {% endif %}
+        ">{{ r.variance }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<script>
+document.getElementById("filterInput").addEventListener("keyup", function() {
+  let filter = this.value.toLowerCase();
+  document.querySelectorAll("#varianceTable tbody tr").forEach(row => {
+    let text = row.innerText.toLowerCase();
+    row.style.display = text.includes(filter) ? "" : "none";
+  });
+});
+</script>
+{% endblock %}

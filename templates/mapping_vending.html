@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Vending Mapping</h2>
+
+<p class="text-muted">Device + Slot → PLU / Product</p>
+
+<div class="mb-3">
+  <input type="text" id="filterInput" class="form-control" placeholder="🔍 Filter by device, slot, PLU, or product...">
+</div>
+
+<form method="post" action="{{ url_for('delete_mappings_vending') }}">
+  <button type="submit" class="btn btn-danger mb-2"
+          onclick="return confirm('Delete selected mappings?')">🗑 Delete Selected</button>
+
+  <table class="table table-sm table-bordered" id="mappingTable">
+    <thead>
+      <tr>
+        <th><input type="checkbox" id="selectAll"></th>
+        <th>Device</th>
+        <th>Slot</th>
+        <th>PLU</th>
+        <th>Product Name</th>
+        <th>Store</th>
+        <th>Multiplier</th>
+        <th>Main?</th>
+        <th>Created</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for m in mappings %}
+      <tr>
+        <td><input type="checkbox" name="ids[]" value="{{ m.id }}"></td>
+        <td>{{ m.device_id }}</td>
+        <td>{{ m.slot }}</td>
+        <td>{{ m.plu_code }}</td>
+        <td>{{ m.product_name }}</td>
+        <td>{{ m.store_id }}</td>
+        <td>{{ m.multiplier }}</td>
+        <td>{{ "✅" if m.is_main else "❌" }}</td>
+        <td>{{ m.created_at }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</form>
+
+<script>
+document.getElementById("filterInput").addEventListener("keyup", function() {
+  let filter = this.value.toLowerCase();
+  document.querySelectorAll("#mappingTable tbody tr").forEach(row => {
+    let text = row.innerText.toLowerCase();
+    row.style.display = text.includes(filter) ? "" : "none";
+  });
+});
+
+document.getElementById("selectAll").addEventListener("change", function() {
+  let checked = this.checked;
+  document.querySelectorAll("#mappingTable tbody tr").forEach(row => {
+    if (row.style.display !== "none") {
+      let cb = row.querySelector("input[name='ids[]']");
+      if (cb) cb.checked = checked;
+    }
+  });
+});
+</script>
+{% endblock %}

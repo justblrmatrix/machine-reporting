@@ -668,6 +668,167 @@ def variance_robobar():
     return render_template("variance_robobar.html", rows=rows, selected_date=selected_date)
 
 
+# ---------------------------
+# Vending Mapping
+# ---------------------------
+@app.route("/mapping/vending", methods=["GET", "POST"])
+def mapping_vending():
+    conn = get_conn()
+    cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+
+    # List existing mappings
+    cur.execute("""
+        SELECT id, device_id, slot, plu_code, product_name, store_id, multiplier, is_main, created_at
+        FROM vending_mapping
+        ORDER BY device_id, slot, plu_code
+    """)
+    mappings = cur.fetchall()
+
+    cur.close()
+    conn.close()
+
+    return render_template("mapping_vending.html", mappings=mappings)
+
+
+@app.route("/mapping/vending/delete", methods=["POST"])
+def delete_mappings_vending():
+    ids = request.form.getlist("ids[]")
+    if ids:
+        conn = get_conn()
+        cur = conn.cursor()
+        ids = [int(x) for x in ids]
+        cur.execute("DELETE FROM vending_mapping WHERE id = ANY(%s)", (ids,))
+        conn.commit()
+        cur.close()
+        conn.close()
+        flash(f"❌ Deleted {len(ids)} vending mappings", "warning")
+    else:
+        flash("⚠️ No mappings selected for deletion", "danger")
+
+    return redirect(url_for("mapping_vending"))
+
+
+# ---------------------------
+# Vending Variance
+# ---------------------------
+def normalize_plu(plu: str) -> str:
+    if not plu:
+        return ""
+    return re.sub(r"[^a-zA-Z0-9]+", "", plu).upper()
+
+def normalize_name(name: str) -> str:
+    if not name:
+        return ""
+    s = name.lower()
+    s = re.sub(r'[\r\n\t]+', ' ', s)
+    s = re.sub(r"['`´]", "", s)
+    s = re.sub(r'[^a-z0-9&]+', ' ', s)
+    s = re.sub(r'\s+', ' ', s).strip()
+    return s
+
+
+@app.route("/variance/vending", methods=["GET", "POST"])
+def variance_vending():
+    conn = get_conn()
+    cur = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+
+    selected_date = request.form.get("date") or date.today().strftime("%Y-%m-%d")
+    d = datetime.strptime(selected_date, "%Y-%m-%d").date()
+
+    # --- Load vending mapping ---
+    cur.execute("""
+        SELECT device_id, slot, plu_code, product_name, multiplier
+        FROM vending_mapping
+    """)
+    mapping_rows = cur.fetchall()
+
+    # Build lookup
+    vending_map = {}
+    mapped_plus = set()
+    mapped_names = {}
+    for row in mapping_rows:
+        plu_norm = normalize_plu(row["plu_code"])
+        name_norm = normalize_name(row["product_name"])
+        key = (str(row["device_id"]), str(row["slot"]))
+        vending_map[key] = {
+            "plu": plu_norm,
+            "name": row["product_name"],
+            "multiplier": float(row["multiplier"] or 1)
+        }
+        mapped_plus.add(plu_norm)
+        mapped_names[name_norm] = plu_norm
+
+    # --- POS sales ---
+    cur.execute("""
+        SELECT plu_code, product_name, SUM(quantity) as qty
+        FROM sales_transactions
+        WHERE source = 'POS' AND date = %s
+        GROUP BY plu_code, product_name
+    """, (d,))
+    pos_rows = cur.fetchall()
+
+    pos_sales = {}
+    for row in pos_rows:
+        plu_norm = normalize_plu(row["plu_code"])
+        name_norm = normalize_name(row["product_name"])
+        qty = float(row["qty"] or 0)
+
+        if plu_norm in mapped_plus:
+            key = plu_norm
+        elif name_norm in mapped_names:
+            key = mapped_names[name_norm]
+        else:
+            continue  # skip if not mapped
+
+        pos_sales[key] = pos_sales.get(key, 0) + qty
+
+    # --- Vending sales ---
+    cur.execute("""
+        SELECT device_id, machine_name, SUM(quantity) as qty
+        FROM sales_transactions
+        WHERE source = 'Vending' AND date = %s
+        GROUP BY device_id, machine_name
+    """, (d,))
+    vending_rows = cur.fetchall()
+
+    machine_sales = {}
+    for row in vending_rows:
+        key = (str(row["device_id"]), str(row["machine_name"]))
+        if key in vending_map:
+            plu = vending_map[key]["plu"]
+            qty = float(row["qty"] or 0) * vending_map[key]["multiplier"]
+            machine_sales[plu] = machine_sales.get(plu, 0) + qty
+
+    cur.close()
+    conn.close()
+
+    # --- Build final rows (only mapped PLUs) ---
+    rows = []
+    for plu in sorted(mapped_plus):
+        pos_qty = pos_sales.get(plu, 0.0)
+        machine_qty = machine_sales.get(plu, 0.0)
+        variance = pos_qty - machine_qty
+
+        # 🔥 Skip products with no activity
+        if pos_qty == 0 and machine_qty == 0:
+            continue
+
+        product_name = None
+        for v in vending_map.values():
+            if v["plu"] == plu:
+                product_name = v["name"]
+                break
+
+        rows.append({
+            "plu_code": plu,
+            "product_name": product_name or plu,
+            "pos_sales": round(pos_qty, 2),
+            "machine_sales": round(machine_qty, 2),
+            "variance": round(variance, 2)
+        })
+
+
+    return render_template("variance_vending.html", rows=rows, selected_date=selected_date)
 
 
 
